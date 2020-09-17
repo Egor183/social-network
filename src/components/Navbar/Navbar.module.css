@@ -1,0 +1,25 @@
+.nav {
+  grid-area: n;
+  background-color: blueviolet;
+  padding: 20px;
+}
+
+.item a {
+  color: white;
+  text-decoration: none;
+}
+
+.poditem {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.itemLast {
+  margin-top: 30px;
+}
+
+.item a.active {
+  color: gold;
+  text-decoration: none;
+}
