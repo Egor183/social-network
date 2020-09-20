@@ -10,13 +10,14 @@ let instance = axios.create({
 
 export const userAPI = {
   getUsers(currentPage = 1, pageSize = 10) {
-    return instance.get(`users?page=${currentPage}&count=${pageSize}`).then((response) => response.data);
+    return instance
+      .get(`users?page=${currentPage}&count=${pageSize}`)
+      .then((response) => response.data);
   },
 
-  getUserData(userId) {
-    return instance.get(`profile/${userId}`).then((response) => {
-      return response.data;
-    });
+  getProfile(userId) {
+    console.warn("Obsolete method. Please use profileAPI object");
+    return profileAPI.getProfile(userId);
   },
 
   followSuccess(userId) {
@@ -28,11 +29,49 @@ export const userAPI = {
   },
 };
 
+export const profileAPI = {
+  getProfile(userId) {
+    return instance.get(`profile/${userId}`).then((response) => {
+      return response.data;
+    });
+  },
+
+  getStatus(userId) {
+    return instance.get(`profile/status/${userId}`).then((response) => {
+      return response.data;
+    });
+  },
+
+  updateStatus(status) {
+    return instance
+      .put(`profile/status/`, { status: status })
+      .then((response) => {
+        return response.data;
+      });
+  },
+};
+
 export const authAPI = {
   getAuthMe() {
     return instance.get(`auth/me`).then((response) => response.data);
   },
   getSmallUserPhoto(userId) {
     return instance.get(`profile/${userId}`);
+  },
+
+  setAuthMe(formData) {
+    return instance
+      .post(`/auth/login/`, {
+        email: formData.login,
+        password: formData.password,
+        rememberMe: formData["remember me:"],
+      })
+      .then((response) => {
+        if (response.data.resultCode === 0) {
+          alert("Вы вошли");
+        } else {
+          alert("Попробуйте еще раз");
+        }
+      });
   },
 };

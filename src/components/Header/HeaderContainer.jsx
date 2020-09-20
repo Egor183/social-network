@@ -27,4 +27,8 @@ let mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { setAuthUserData, setUserPhoto, setAuth })(HeaderContainer);
+export default connect(mapStateToProps, {
+  setAuthUserData,
+  setUserPhoto,
+  setAuth,
+})(HeaderContainer);

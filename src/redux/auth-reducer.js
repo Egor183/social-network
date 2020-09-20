@@ -1,8 +1,5 @@
-import { authAPI, userAPI } from "../API/api";
-import { setUserProfile } from "./profile-reducer";
+import { authAPI } from "../API/api";
 
-const FOLLOW = `FOLLOW`;
-const UNFOLLOW = `UNFOLLOW`;
 const SET_USER_PHOTO = "SET_USER_PHOTO";
 
 const SET_USER_DATA = `SET_USER_DATA`;
@@ -48,6 +45,11 @@ export const setUserPhoto = (userPhoto) => ({
   userPhoto,
 });
 
+export const chekAuth = (userPhoto) => ({
+  type: SET_USER_PHOTO,
+  userPhoto,
+});
+
 export const setAuth = () => {
   // thunkCreator
   return (dispatch) => {
@@ -55,9 +57,11 @@ export const setAuth = () => {
       if (data.resultCode === 0) {
         let { id, login, email } = data.data;
         dispatch(setAuthUserData(id, email, login));
-        authAPI.getSmallUserPhoto().then((response) => {
-          dispatch(setUserPhoto(response.data.photos.small));
-        });
+        if (id) {
+          authAPI.getSmallUserPhoto(id).then((response) => {
+            dispatch(setUserPhoto(response.data.photos.small));
+          });
+        }
       }
     });
   };

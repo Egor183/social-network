@@ -1,5 +1,4 @@
 const ADD_MESSAGE = `ADD-MESSAGE`;
-const UPDATE_NEW_MESSAGE_TEXT = `UPDATE-NEW-MESSAGE-TEXT`;
 
 let initialState = {
   messages: [
@@ -10,7 +9,6 @@ let initialState = {
     { id: 5, message: "Hello" },
     { id: 6, message: "How many people" },
   ],
-  newMessageText: "hello ",
   dialogs: [
     {
       id: 1,
@@ -20,7 +18,8 @@ let initialState = {
     {
       id: 2,
       name: "Gleb",
-      image: "https://tlum.ru/uploads/e0eadfa10236e75c0ba98a4b25c18e3775ffcdd1f6467ee1e8a9374bd6e92b33.jpeg",
+      image:
+        "https://tlum.ru/uploads/e0eadfa10236e75c0ba98a4b25c18e3775ffcdd1f6467ee1e8a9374bd6e92b33.jpeg",
     },
     {
       id: 3,
@@ -31,17 +30,20 @@ let initialState = {
     {
       id: 4,
       name: "Nastya",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRYkU7IeRR9vThosQLHJrMrbDykis_nkma5wA&usqp=CAU",
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRYkU7IeRR9vThosQLHJrMrbDykis_nkma5wA&usqp=CAU",
     },
     {
       id: 5,
       name: "Oleg",
-      image: "https://medportal.org/files/images/hrdt%D0%B5%D0%BD%D0%BE7u7nmi8.jpg",
+      image:
+        "https://medportal.org/files/images/hrdt%D0%B5%D0%BD%D0%BE7u7nmi8.jpg",
     },
     {
       id: 6,
       name: "Kolya",
-      image: "https://avatars.mds.yandex.net/get-pdb/879561/f817b993-2883-49ef-aa56-9fed499e04e4/s1200",
+      image:
+        "https://avatars.mds.yandex.net/get-pdb/879561/f817b993-2883-49ef-aa56-9fed499e04e4/s1200",
     },
   ],
 };
@@ -51,24 +53,19 @@ const dialogsReducer = (state = initialState, action) => {
     case ADD_MESSAGE: {
       return {
         ...state,
-        messages: [...state.messages, { id: 5, message: state.newMessageText }],
-        newMessageText: "",
+        messages: [...state.messages, { id: 5, message: action.formData }],
       };
-    }
-    case UPDATE_NEW_MESSAGE_TEXT: {
-      return { ...state, newMessageText: action.newText };
     }
     default:
       return state;
   }
 };
 
-export const addMessageActionCreator = () => ({
-  type: ADD_MESSAGE,
-});
+export const addMessageActionCreator = (formData) => {
+  return {
+    type: ADD_MESSAGE,
+    formData,
+  };
+};
 
-export const updateNewMessageTextActionCreator = (text) => ({
-  type: UPDATE_NEW_MESSAGE_TEXT,
-  newText: text,
-});
 export default dialogsReducer;
