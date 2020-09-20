@@ -59,19 +59,15 @@ export const authAPI = {
     return instance.get(`profile/${userId}`);
   },
 
-  setAuthMe(formData) {
-    return instance
-      .post(`/auth/login/`, {
-        email: formData.login,
-        password: formData.password,
-        rememberMe: formData["remember me:"],
-      })
-      .then((response) => {
-        if (response.data.resultCode === 0) {
-          alert("Вы вошли");
-        } else {
-          alert("Попробуйте еще раз");
-        }
-      });
+  login(formData) {
+    return instance.post(`/auth/login/`, {
+      email: formData.login,
+      password: formData.password,
+      rememberMe: formData["remember me:"],
+    });
+  },
+
+  logout() {
+    return instance.delete(`/auth/login/`);
   },
 };
