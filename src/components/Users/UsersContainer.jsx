@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import {
   follow,
   followSuccess,
-  getUsers,
+  requestUsers,
   setCurrentPage,
   toggleIsFollowingProcess,
   unfollow,
@@ -13,6 +13,14 @@ import Users from "./Users";
 import Preloader from "../Common/Preaolader/Preloader";
 import { compose } from "redux";
 import withAuthRedirect from "../../HOC/withAuthRedirect";
+import {
+  getCurrentPage,
+  getFollowingInProgress,
+  getIsFetching,
+  getPageSize,
+  getTotalUserCount,
+  getUsers,
+} from "../../redux/users-selectors";
 
 class UsersContainer extends React.Component {
   componentDidMount() {
@@ -29,7 +37,6 @@ class UsersContainer extends React.Component {
     return (
       <>
         {this.props.isFetching ? <Preloader /> : null}
-
         <Users
           totalUserCount={this.props.totalUserCount}
           pageSize={this.props.pageSize}
@@ -48,15 +55,26 @@ class UsersContainer extends React.Component {
   }
 }
 
+// let mapStateToProps = (state) => {
+//   return {
+//     users: state.usersPage.users,
+//     pageSize: state.usersPage.pageSize,
+//     totalUserCount: state.usersPage.totalUserCount,
+//     currentPage: state.usersPage.currentPage,
+//     CurrentPage: state.usersPage.CurrentPage,
+//     isFetching: state.usersPage.isFetching,
+//     followingInProgress: state.usersPage.followingInProgress,
+//   };
+// };
+
 let mapStateToProps = (state) => {
   return {
-    users: state.usersPage.users,
-    pageSize: state.usersPage.pageSize,
-    totalUserCount: state.usersPage.totalUserCount,
-    currentPage: state.usersPage.currentPage,
-    CurrentPage: state.usersPage.CurrentPage,
-    isFetching: state.usersPage.isFetching,
-    followingInProgress: state.usersPage.followingInProgress,
+    users: getUsers(state),
+    pageSize: getPageSize(state),
+    totalUserCount: getTotalUserCount(state),
+    currentPage: getCurrentPage(state),
+    isFetching: getIsFetching(state),
+    followingInProgress: getFollowingInProgress(state),
   };
 };
 
@@ -66,7 +84,7 @@ export default compose(
     unfollowSuccess,
     setCurrentPage,
     toggleIsFollowingProcess,
-    getUsers,
+    getUsers: requestUsers,
     follow,
     unfollow,
   })

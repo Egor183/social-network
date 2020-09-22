@@ -17,4 +17,6 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
+window.store = store;
+
 serviceWorker.unregister();

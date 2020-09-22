@@ -1,7 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Social network on react-redux.
-And also axios, redux-form, redux-thunk.
+Social network on react-redux. And also axios, redux-form, redux-thunk, reselect.
 
 ## Available Scripts
 
