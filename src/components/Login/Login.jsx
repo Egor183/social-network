@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { login } from "../../redux/auth-reducer";
 import withAuthRedirect from "../../HOC/withAuthRedirect";
 import { Redirect } from "react-router-dom";
+import styles from "../Common/FormsControls/FormsControls.module.css";
 
 const Login = (props) => {
   const onSubmit = (formData) => {
@@ -48,6 +49,9 @@ const LoginForm = (props) => {
         <Field type="checkbox" component={Input} name="remember me" /> remember
         me
       </div>
+      {props.error && (
+        <div className={styles.formSummaryError}>{props.error}</div>
+      )}
       <div>
         <button>Login</button>
       </div>

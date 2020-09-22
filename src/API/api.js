@@ -37,6 +37,7 @@ export const profileAPI = {
   },
 
   getStatus(userId) {
+    debugger;
     return instance.get(`profile/status/${userId}`).then((response) => {
       return response.data;
     });
@@ -54,9 +55,6 @@ export const profileAPI = {
 export const authAPI = {
   getAuthMe() {
     return instance.get(`auth/me`).then((response) => response.data);
-  },
-  getSmallUserPhoto(userId) {
-    return instance.get(`profile/${userId}`);
   },
 
   login(formData) {
