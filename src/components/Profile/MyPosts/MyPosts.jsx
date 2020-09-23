@@ -32,13 +32,14 @@ const TextAreaReduxForm = reduxForm({
   form: "addPost",
 })(AddPostForm);
 
-const MyPosts = (props) => {
+const MyPosts = React.memo((props) => {
   const onSubmit = (formData) => {
     props.addPost(formData.post);
   };
   let postsElements = props.posts.map((elem) => (
     <Post message={elem.message} likesCount={elem.likesCount} key={elem.id} />
   ));
+  console.log("chika");
   return (
     <div className={s.postsBlock}>
       <h3>My posts</h3>
@@ -47,6 +48,6 @@ const MyPosts = (props) => {
       <div className={s.posts}>{postsElements}</div>
     </div>
   );
-};
+});
 
 export default MyPosts;
