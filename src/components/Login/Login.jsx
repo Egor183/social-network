@@ -1,6 +1,6 @@
 import React from "react";
-import { Field, reduxForm } from "redux-form";
-import { Input } from "../Common/FormsControls/FormsControls";
+import { reduxForm } from "redux-form";
+import { createField, Input } from "../Common/FormsControls/FormsControls";
 import { required } from "../../utils/validators/validator";
 import { connect } from "react-redux";
 import { login } from "../../redux/auth-reducer";
@@ -8,12 +8,12 @@ import withAuthRedirect from "../../HOC/withAuthRedirect";
 import { Redirect } from "react-router-dom";
 import styles from "../Common/FormsControls/FormsControls.module.css";
 
-const Login = (props) => {
+const Login = ({ login, isAuth, meId }) => {
   const onSubmit = (formData) => {
-    props.login(formData);
+    login(formData);
   };
-  if (props.isAuth) {
-    return <Redirect to={"/profile"} />;
+  if (isAuth) {
+    return <Redirect to={"/profile/" + meId} />;
   }
 
   return (
@@ -24,34 +24,13 @@ const Login = (props) => {
   );
 };
 
-const LoginForm = (props) => {
+const LoginForm = ({ handleSubmit, error }) => {
   return (
-    <form onSubmit={props.handleSubmit}>
-      <div>
-        <Field
-          type="text"
-          placeholder="Login"
-          name="login"
-          component={Input}
-          validate={[required]}
-        />
-      </div>
-      <div>
-        <Field
-          type="password"
-          placeholder="Password"
-          name="password"
-          component={Input}
-          validate={[required]}
-        />
-      </div>
-      <div>
-        <Field type="checkbox" component={Input} name="remember me" /> remember
-        me
-      </div>
-      {props.error && (
-        <div className={styles.formSummaryError}>{props.error}</div>
-      )}
+    <form onSubmit={handleSubmit}>
+      {createField("text", "Login", "login", Input, [required])}
+      {createField("password", "Password", "password", Input, [required])}
+      {createField("checkbox", null, "remember me", Input, null, "remember me")}
+      {error && <div className={styles.formSummaryError}>{error}</div>}
       <div>
         <button>Login</button>
       </div>
@@ -62,6 +41,7 @@ const LoginForm = (props) => {
 const mapStateToProps = (state) => {
   return {
     isAuth: state.auth.isAuth,
+    meId: state.auth.userId,
   };
 };
 

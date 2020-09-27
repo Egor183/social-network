@@ -12,7 +12,6 @@ import {
 import Users from "./Users";
 import Preloader from "../Common/Preaolader/Preloader";
 import { compose } from "redux";
-import withAuthRedirect from "../../HOC/withAuthRedirect";
 import {
   getCurrentPage,
   getFollowingInProgress,
@@ -21,35 +20,46 @@ import {
   getTotalUserCount,
   getUsers,
 } from "../../redux/users-selectors";
+import Paginator from "../Common/Paginator/Paginator";
 
 class UsersContainer extends React.Component {
   componentDidMount() {
-    console.log(this.props);
-    this.props.getUsers(this.props.currentPage, this.props.pageSize);
+    let { currentPage, pageSize } = this.props;
+    this.props.requestUsers(currentPage, pageSize);
   }
 
   onPageChanged = (pageNumber) => {
+    let { currentPage, pageSize } = this.props;
     this.props.setCurrentPage(pageNumber);
-    this.props.getUsers(this.props.currentPage, this.props.pageSize);
+    this.props.requestUsers(currentPage, pageSize);
   };
 
   render() {
     return (
       <>
-        {this.props.isFetching ? <Preloader /> : null}
-        <Users
+        <Paginator
+          currentPage={this.props.currentPage}
+          onPageChanged={this.onPageChanged}
           totalUserCount={this.props.totalUserCount}
           pageSize={this.props.pageSize}
-          onPageChanged={this.onPageChanged}
-          currentPage={this.props.currentPage}
-          users={this.props.users}
-          followSuccess={this.props.followSuccess}
-          unfollowSuccess={this.props.unfollowSuccess}
-          followingInProgress={this.props.followingInProgress}
-          toggleIsFollowingProcess={this.props.toggleIsFollowingProcess}
-          follow={this.props.follow}
-          unfollow={this.props.unfollow}
         />
+        {this.props.isFetching ? (
+          <Preloader />
+        ) : (
+          <Users
+            totalUserCount={this.props.totalUserCount}
+            pageSize={this.props.pageSize}
+            onPageChanged={this.onPageChanged}
+            currentPage={this.props.currentPage}
+            users={this.props.users}
+            followSuccess={this.props.followSuccess}
+            unfollowSuccess={this.props.unfollowSuccess}
+            followingInProgress={this.props.followingInProgress}
+            toggleIsFollowingProcess={this.props.toggleIsFollowingProcess}
+            follow={this.props.follow}
+            unfollow={this.props.unfollow}
+          />
+        )}
       </>
     );
   }
@@ -75,6 +85,9 @@ let mapStateToProps = (state) => {
     currentPage: getCurrentPage(state),
     isFetching: getIsFetching(state),
     followingInProgress: getFollowingInProgress(state),
+    meId: state.auth.userId,
+    isAuth: state.auth.isAuth,
+    userId: state.profilePage.userId,
   };
 };
 
@@ -84,7 +97,7 @@ export default compose(
     unfollowSuccess,
     setCurrentPage,
     toggleIsFollowingProcess,
-    getUsers: requestUsers,
+    requestUsers,
     follow,
     unfollow,
   })

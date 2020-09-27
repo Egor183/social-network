@@ -1,12 +1,13 @@
 import { userAPI as userApi, userAPI } from "../API/api";
+import { updateObjectInArray } from "../utils/object-helpers";
 
-const FOLLOW = `FOLLOW`;
-const UNFOLLOW = `UNFOLLOW`;
-const SET_USERS = `SET_USERS`;
-const SET_CURRENT_PAGE = `SET_CURRENT_PAGE`;
-const SET_USER_TOTAL_COUNT = "SET_USER_TOTAL_COUNT";
-const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
-const TOGGLE_IS_FOLLOWING_PROCESS = "TOGGLE_IS_FOLLOWING_PROCESS";
+const FOLLOW = `social-network/usersPage/FOLLOW`;
+const UNFOLLOW = `social-network/usersPage/UNFOLLOW`;
+const SET_USERS = `social-network/usersPage/SET_USERS`;
+const SET_CURRENT_PAGE = `social-network/usersPage/SET_CURRENT_PAGE`;
+const SET_USER_TOTAL_COUNT = "social-network/usersPage/SET_USER_TOTAL_COUNT";
+const TOGGLE_IS_FETCHING = "social-network/usersPage/TOGGLE_IS_FETCHING";
+const TOGGLE_IS_FOLLOWING_PROCESS = "social-network/usersPage/TOGGLE_IS_FOLLOWING_PROCESS";
 
 let initialState = {
   users: [],
@@ -22,21 +23,21 @@ const usersReducer = (state = initialState, action) => {
     case FOLLOW:
       return {
         ...state,
-        users: state.users.map((user) => {
-          if (user.id === action.userId) {
-            return { ...user, followed: true };
-          }
-          return user;
+        users: updateObjectInArray(state.users, action.userId, "id", {
+          followed: true,
         }),
+        // users: state.users.map((user) => {
+        //   if (user.id === action.userId) {
+        //     return { ...user, followed: true };
+        //   }
+        //   return user;
+        // }),
       };
     case UNFOLLOW:
       return {
         ...state,
-        users: state.users.map((user) => {
-          if (user.id === action.userId) {
-            return { ...user, followed: false };
-          }
-          return user;
+        users: updateObjectInArray(state.users, action.userId, "id", {
+          followed: false,
         }),
       };
 
@@ -70,7 +71,7 @@ const usersReducer = (state = initialState, action) => {
         ...state,
         followingInProgress: action.followingInProgress
           ? [...state.followingInProgress, action.userId]
-          : state.followingInProgress.filter((id) => id != action.userId),
+          : state.followingInProgress.filter((id) => id !== action.userId),
       };
     }
 
@@ -119,39 +120,36 @@ export const toggleIsFollowingProcess = (followingInProgress, userId) => ({
 
 export const requestUsers = (page, pageSize) => {
   // thunkCreator
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(toggleIsFetching(true));
-    userAPI.getUsers(page, pageSize).then((data) => {
-      dispatch(toggleIsFetching(false));
-      dispatch(setUsers(data.items));
-      dispatch(setUserTotalCount(data.totalCount));
-    });
+    let response = await userAPI.getUsers(page, pageSize);
+    dispatch(toggleIsFetching(false));
+    dispatch(setUsers(response.data.items));
+    dispatch(setUserTotalCount(response.data.totalCount));
   };
+};
+
+const followUnfollow = async (dispatch, userId, actionCreator, apiMethod) => {
+  // thunkCreator
+  dispatch(toggleIsFollowingProcess(true, userId));
+  let response = await apiMethod(userId);
+  if (response.data.resultCode === 0) {
+    dispatch(actionCreator(userId));
+  }
+  dispatch(toggleIsFollowingProcess(false, userId));
 };
 
 export const follow = (userId) => {
   // thunkCreator
   return (dispatch) => {
-    dispatch(toggleIsFollowingProcess(true, userId));
-    userApi.followSuccess(userId).then((response) => {
-      if (response.data.resultCode == 0) {
-        dispatch(followSuccess(userId));
-      }
-      dispatch(toggleIsFollowingProcess(false, userId));
-    });
+    followUnfollow(dispatch, userId, followSuccess, userApi.followSuccess.bind(userId));
   };
 };
 
 export const unfollow = (userId) => {
   // thunkCreator
   return (dispatch) => {
-    dispatch(toggleIsFollowingProcess(true, userId));
-    userApi.unfollowSuccess(userId).then((response) => {
-      if (response.data.resultCode == 0) {
-        dispatch(unfollowSuccess(userId));
-      }
-      dispatch(toggleIsFollowingProcess(false, userId));
-    });
+    followUnfollow(dispatch, userId, unfollowSuccess, userApi.unfollowSuccess.bind(userId));
   };
 };
 

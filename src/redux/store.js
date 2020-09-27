@@ -31,8 +31,7 @@ let store = {
         {
           id: 2,
           name: "Gleb",
-          image:
-            "https://tlum.ru/uploads/e0eadfa10236e75c0ba98a4b25c18e3775ffcdd1f6467ee1e8a9374bd6e92b33.jpeg",
+          image: "https://tlum.ru/uploads/e0eadfa10236e75c0ba98a4b25c18e3775ffcdd1f6467ee1e8a9374bd6e92b33.jpeg",
         },
         {
           id: 3,
@@ -49,14 +48,12 @@ let store = {
         {
           id: 5,
           name: "Oleg",
-          image:
-            "https://medportal.org/files/images/hrdt%D0%B5%D0%BD%D0%BE7u7nmi8.jpg",
+          image: "https://medportal.org/files/images/hrdt%D0%B5%D0%BD%D0%BE7u7nmi8.jpg",
         },
         {
           id: 6,
           name: "Kolya",
-          image:
-            "https://avatars.mds.yandex.net/get-pdb/879561/f817b993-2883-49ef-aa56-9fed499e04e4/s1200",
+          image: "https://avatars.mds.yandex.net/get-pdb/879561/f817b993-2883-49ef-aa56-9fed499e04e4/s1200",
         },
       ],
     },

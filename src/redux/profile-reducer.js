@@ -1,9 +1,9 @@
-import { profileAPI, userAPI } from "../API/api";
+import { profileAPI } from "../API/api";
 
-const ADD_POST = `ADD-POST`;
-const SET_USER_PROFILE = `SET_USER_PROFILE`;
-const SET_STATUS = "SET_STATUS";
-const DELETE_POST = "DELETE_POST";
+const ADD_POST = `social-network/profilePage/ADD-POST`;
+const SET_USER_PROFILE = `social-network/profilePage/SET_USER_PROFILE`;
+const SET_STATUS = "social-network/profilePage/SET_STATUS";
+const DELETE_POST = "social-network/profilePage/DELETE_POST";
 
 let initialState = {
   posts: [
@@ -13,6 +13,7 @@ let initialState = {
   profile: null,
   aboutMe: "",
   status: "",
+  userId: null,
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -20,10 +21,7 @@ const profileReducer = (state = initialState, action) => {
     case ADD_POST:
       return {
         ...state,
-        posts: [
-          ...state.posts,
-          { id: 7, message: action.formData, likesCount: "28" },
-        ],
+        posts: [...state.posts, { id: 7, message: action.formData, likesCount: "28" }],
         newPostText: "",
       };
 
@@ -32,13 +30,14 @@ const profileReducer = (state = initialState, action) => {
         ...state,
         profile: action.profile,
         aboutMe: action.profile.aboutMe,
+        userId: action.userId,
       };
     }
 
     case DELETE_POST: {
       return {
         ...state,
-        posts: state.posts.filter((p) => p.id != action.postId),
+        posts: state.posts.filter((p) => p.id !== action.postId),
       };
     }
 
@@ -48,6 +47,7 @@ const profileReducer = (state = initialState, action) => {
         status: action.status,
       };
     }
+
     default:
       return state;
   }
@@ -60,10 +60,11 @@ export const addPostActionCreator = (formData) => {
   };
 };
 
-export const setUserProfile = (profile) => {
+export const setUserProfile = (profile, userId) => {
   return {
     type: SET_USER_PROFILE,
     profile,
+    userId,
   };
 };
 
@@ -83,33 +84,30 @@ export const setStatus = (status) => {
 
 export const getUserProfile = (userId) => {
   // thunkCreator
-  return (dispatch) => {
-    if (!userId === undefined) {
-      userId = 1;
-    }
-    userAPI.getProfile(userId).then((data) => {
-      dispatch(setUserProfile(data));
-    });
+  if (!userId) {
+    userId = 1;
+  }
+  return async (dispatch) => {
+    let response = await profileAPI.getProfile(userId);
+    dispatch(setUserProfile(response.data, userId));
   };
 };
 
 export const getStatus = (userId) => {
   // thunkCreator
-  return (dispatch) => {
-    profileAPI.getStatus(userId).then((data) => {
-      dispatch(setStatus(data));
-    });
+  return async (dispatch) => {
+    let response = await profileAPI.getStatus(userId);
+    dispatch(setStatus(response.data));
   };
 };
 
 export const updateStatus = (status) => {
   // thunkCreator
-  return (dispatch) => {
-    profileAPI.updateStatus(status).then((response) => {
-      if (response.resultCode === 0) {
-        dispatch(setStatus(status));
-      }
-    });
+  return async (dispatch) => {
+    let response = await profileAPI.updateStatus(status);
+    if (response.data.resultCode === 0) {
+      dispatch(setStatus(status));
+    }
   };
 };
 

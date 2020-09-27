@@ -12,12 +12,7 @@ const AddMessageForm = (props) => {
   return (
     <form onSubmit={props.handleSubmit}>
       <div>
-        <Field
-          placeholder="Send message"
-          name="message"
-          component={Textarea}
-          validate={[required, maxLength10]}
-        />
+        <Field placeholder="Send message" name="message" component={Textarea} validate={[required, maxLength10]} />
       </div>
       <div>
         <button>Add post</button>
@@ -30,17 +25,15 @@ const TextAreaReduxForm = reduxForm({
   form: "addMessage",
 })(AddMessageForm);
 
-const Dialogs = (props) => {
-  let dialogsElement = props.dialogs.map((elem) => (
+const Dialogs = ({ dialogs, messages, addMessageActionCreator }) => {
+  let dialogsElement = dialogs.map((elem) => (
     <DialogItem name={elem.name} key={elem.id} id={elem.id} src={elem.image} />
   ));
 
-  let messagesElements = props.messages.map((elem) => (
-    <Message message={elem.message} key={elem.id} />
-  ));
+  let messagesElements = messages.map((elem) => <Message message={elem.message} key={elem.id} />);
 
   const onSubmit = (formData) => {
-    props.addMessageActionCreator(formData);
+    addMessageActionCreator(formData);
   };
   return (
     <div className={s.dialogs}>

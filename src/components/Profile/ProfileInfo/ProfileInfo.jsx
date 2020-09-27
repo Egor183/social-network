@@ -1,23 +1,21 @@
 import React from "react";
 import s from "./ProfileInfo.module.css";
 import Preloader from "../../Common/Preaolader/Preloader";
-import ProfileStatus from "./ProfileStatus";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 
-const ProfileInfo = (props) => {
-  if (!props.profile) {
+const ProfileInfo = ({ profile, status, updateStatus, aboutMe }) => {
+  if (!profile) {
     return <Preloader />;
   }
-
   return (
     <div>
       <div className={s.descriptionBlock}>
-        <img src={props.profile.photos.large} alt="фото" />
+        <img src={profile.photos.large} alt="фото" />
         <ProfileStatusWithHooks
-          status={props.status}
-          updateStatus={props.updateStatus}
+          status={status}
+          updateStatus={updateStatus}
         />
-        <p>{props.aboutMe}</p>
+        <p>{aboutMe}</p>
       </div>
     </div>
   );
