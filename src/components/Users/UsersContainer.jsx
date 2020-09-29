@@ -16,9 +16,9 @@ import {
   getCurrentPage,
   getFollowingInProgress,
   getIsFetching,
-  getPageSize,
+  getPageSize, getPortionSize,
   getTotalUserCount,
-  getUsers,
+  getUsers
 } from "../../redux/users-selectors";
 import Paginator from "../Common/Paginator/Paginator";
 
@@ -40,8 +40,9 @@ class UsersContainer extends React.Component {
         <Paginator
           currentPage={this.props.currentPage}
           onPageChanged={this.onPageChanged}
-          totalUserCount={this.props.totalUserCount}
+          totalItemsCount={this.props.totalUserCount}
           pageSize={this.props.pageSize}
+          portionSize={this.props.portionSize}
         />
         {this.props.isFetching ? (
           <Preloader />
@@ -88,6 +89,7 @@ let mapStateToProps = (state) => {
     meId: state.auth.userId,
     isAuth: state.auth.isAuth,
     userId: state.profilePage.userId,
+    portionSize: getPortionSize(state),
   };
 };
 

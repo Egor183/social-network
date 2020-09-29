@@ -1,8 +1,15 @@
 .selectedPage {
-    font-weight: bold;
+  font-weight: bold;
 }
-.page{
-    margin-right: 5px;
-    cursor: pointer;
+.page {
+  margin: 0 5px;
+  cursor: pointer;
 }
 
+.noActive {
+  display: none;
+}
+
+.active {
+  display: block;
+}
