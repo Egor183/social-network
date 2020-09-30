@@ -12,7 +12,7 @@ import { initializeApp } from "./redux/app-reducer";
 import Preloader from "./components/Common/Preaolader/Preloader";
 import store from "./redux/redux-store";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import SuspenseHOC from "./HOC/Suspense";
 
 // import ProfileContainer from "./components/Profile/ProfileContainer";
@@ -56,11 +56,11 @@ let AppContainer = compose(
 
 let MainApp = () => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Provider store={store}>
         <AppContainer />
       </Provider>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
