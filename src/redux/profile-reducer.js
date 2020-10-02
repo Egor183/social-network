@@ -5,15 +5,15 @@ const SET_USER_PROFILE = `social-network/profilePage/SET_USER_PROFILE`;
 const SET_STATUS = "social-network/profilePage/SET_STATUS";
 const DELETE_POST = "social-network/profilePage/DELETE_POST";
 
+const SAVE_PHOTO_SUCCESS = "social-network/profilePage/SAVE_PHOTO_SUCCESS";
+
 let initialState = {
   posts: [
     { id: 1, message: "How are you ", likesCount: "12" },
     { id: 2, message: "It's my first posts", likesCount: "32" },
   ],
   profile: null,
-  aboutMe: "",
   status: "",
-  userId: null,
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -29,8 +29,7 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         profile: action.profile,
-        aboutMe: action.profile.aboutMe,
-        userId: action.userId,
+        // userId: action.userId,
       };
     }
 
@@ -48,6 +47,13 @@ const profileReducer = (state = initialState, action) => {
       };
     }
 
+    case SAVE_PHOTO_SUCCESS: {
+      return {
+        ...state,
+        profile: { ...state.profile, photos: action.file },
+      };
+    }
+
     default:
       return state;
   }
@@ -60,11 +66,11 @@ export const addPostActionCreator = (formData) => {
   };
 };
 
-export const setUserProfile = (profile, userId) => {
+export const setUserProfile = (profile) => {
+
   return {
     type: SET_USER_PROFILE,
     profile,
-    userId,
   };
 };
 
@@ -82,6 +88,14 @@ export const setStatus = (status) => {
   };
 };
 
+export const savePhotoSuccess = (file) => {
+
+  return {
+    type: SAVE_PHOTO_SUCCESS,
+    file,
+  };
+};
+
 export const getUserProfile = (userId) => {
   // thunkCreator
   if (!userId) {
@@ -89,7 +103,7 @@ export const getUserProfile = (userId) => {
   }
   return async (dispatch) => {
     let response = await profileAPI.getProfile(userId);
-    dispatch(setUserProfile(response.data, userId));
+    dispatch(setUserProfile(response.data));
   };
 };
 
@@ -107,6 +121,17 @@ export const updateStatus = (status) => {
     let response = await profileAPI.updateStatus(status);
     if (response.data.resultCode === 0) {
       dispatch(setStatus(status));
+    }
+  };
+};
+
+export const changeAvatar = (file) => {
+  // thunkCreator
+  return async (dispatch) => {
+    let response = await profileAPI.savePhoto(file);
+    if (response.data.resultCode === 0) {
+
+      dispatch(savePhotoSuccess(response.data.data.photos));
     }
   };
 };
