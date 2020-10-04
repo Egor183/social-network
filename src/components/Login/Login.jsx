@@ -8,7 +8,7 @@ import withAuthRedirect from "../../HOC/withAuthRedirect";
 import { Redirect } from "react-router-dom";
 import styles from "../Common/FormsControls/FormsControls.module.css";
 
-const Login = ({ login, isAuth, meId }) => {
+const Login = ({ login, isAuth, meId, captcha }) => {
   const onSubmit = (formData) => {
     login(formData);
   };
@@ -18,21 +18,27 @@ const Login = ({ login, isAuth, meId }) => {
   return (
     <div>
       <h1>Login</h1>
-      <LoginReduxForm onSubmit={onSubmit} />
+      <LoginReduxForm onSubmit={onSubmit} captcha={captcha} />
     </div>
   );
 };
 
-const LoginForm = ({ handleSubmit, error }) => {
+const LoginForm = ({ handleSubmit, error, captcha }) => {
   return (
     <form onSubmit={handleSubmit}>
-      {createField("text", "Login", "login", Input, [required])}
+      {createField("text", "Login", "email", Input, [required])}
       {createField("password", "Password", "password", Input, [required])}
-      {createField("checkbox", null, "remember me", Input, null, "remember me")}
+      {createField("checkbox", null, "rememberMe", Input, null, "remember me")}
       {error && <div className={styles.formSummaryError}>{error}</div>}
       <div>
         <button>Login</button>
       </div>
+      {captcha && (
+        <div>
+          <img src={captcha} alt="captcha" />
+          {createField("text", "captcha", "captcha", Input, [required])}
+        </div>
+      )}
     </form>
   );
 };
@@ -41,6 +47,7 @@ const mapStateToProps = (state) => {
   return {
     isAuth: state.auth.isAuth,
     meId: state.auth.userId,
+    captcha: state.auth.captcha,
   };
 };
 

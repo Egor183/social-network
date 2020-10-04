@@ -55,15 +55,26 @@ export const authAPI = {
     return instance.get(`auth/me`);
   },
 
+  getCaptcha() {
+    return instance.get(`/security/get-captcha-url`);
+  },
+
   login(formData) {
-    return instance.post(`/auth/login/`, {
-      email: formData.login,
-      password: formData.password,
-      rememberMe: formData["remember me:"],
-    });
+
+    return instance.post(`/auth/login/`, formData);
   },
 
   logout() {
     return instance.delete(`/auth/login/`);
+  },
+};
+
+export const secutityAPI = {
+  getAuthMe() {
+    return instance.get(`auth/me`);
+  },
+
+  getCaptcha() {
+    return instance.get(`/security/get-captcha-url`);
   },
 };
