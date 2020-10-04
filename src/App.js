@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import Navbar from "./components/Navbar/Navbar";
 import "./App.css";
 import { Route } from "react-router-dom";

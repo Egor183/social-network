@@ -15,7 +15,6 @@ const Login = ({ login, isAuth, meId }) => {
   if (isAuth) {
     return <Redirect to={"/profile/" + meId} />;
   }
-
   return (
     <div>
       <h1>Login</h1>

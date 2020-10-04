@@ -1,10 +1,10 @@
 import { profileAPI } from "../API/api";
+import { stopSubmit } from "redux-form";
 
 const ADD_POST = `social-network/profilePage/ADD-POST`;
 const SET_USER_PROFILE = `social-network/profilePage/SET_USER_PROFILE`;
 const SET_STATUS = "social-network/profilePage/SET_STATUS";
 const DELETE_POST = "social-network/profilePage/DELETE_POST";
-
 const SAVE_PHOTO_SUCCESS = "social-network/profilePage/SAVE_PHOTO_SUCCESS";
 
 let initialState = {
@@ -29,7 +29,6 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         profile: action.profile,
-        // userId: action.userId,
       };
     }
 
@@ -39,7 +38,6 @@ const profileReducer = (state = initialState, action) => {
         posts: state.posts.filter((p) => p.id !== action.postId),
       };
     }
-
     case SET_STATUS: {
       return {
         ...state,
@@ -67,7 +65,6 @@ export const addPostActionCreator = (formData) => {
 };
 
 export const setUserProfile = (profile) => {
-
   return {
     type: SET_USER_PROFILE,
     profile,
@@ -89,7 +86,6 @@ export const setStatus = (status) => {
 };
 
 export const savePhotoSuccess = (file) => {
-
   return {
     type: SAVE_PHOTO_SUCCESS,
     file,
@@ -125,12 +121,25 @@ export const updateStatus = (status) => {
   };
 };
 
+export const saveProfile = (profile) => {
+  return async (dispatch) => {
+    let response = await profileAPI.saveProfile(profile);
+    if (response.data.resultCode === 0) {
+      dispatch(getUserProfile(profile.userId));
+    } else {
+      let error = response.data.messages[0];
+      let elem = error.slice(error.indexOf(">") + 1, -1).toLowerCase();
+      dispatch(stopSubmit("profileData", { contacts: { [elem]: error } }));
+      return Promise.reject();
+    }
+  };
+};
+
 export const changeAvatar = (file) => {
   // thunkCreator
   return async (dispatch) => {
     let response = await profileAPI.savePhoto(file);
     if (response.data.resultCode === 0) {
-
       dispatch(savePhotoSuccess(response.data.data.photos));
     }
   };

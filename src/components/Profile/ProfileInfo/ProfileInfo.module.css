@@ -5,5 +5,27 @@
 
 .userAvatar {
   width: 200px;
-
 }
+
+.statusContainer {
+  display: flex;
+}
+
+.contact {
+  padding-left: 20px;
+}
+
+.contactsFormsContainer {
+  display: flex;
+}
+
+.contactFormName {
+  width: 100px;
+}
+
+.formSummaryError {
+  border: 1px solid red;
+  padding: 10px;
+  color: darkred;
+}
+

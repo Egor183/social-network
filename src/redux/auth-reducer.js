@@ -73,7 +73,6 @@ export const logout = (formData) => {
     let response = await authAPI.logout(formData);
     if (response.data.resultCode === 0) {
       dispatch(setAuthUserData(null, null, null, false));
-      
     }
   };
 };

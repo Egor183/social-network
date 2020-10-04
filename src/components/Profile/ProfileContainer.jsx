@@ -1,8 +1,15 @@
 import React from "react";
 import Profile from "./Profile";
 import { connect } from "react-redux";
-import { changeAvatar, getStatus, getUserProfile, setUserProfile, updateStatus } from "../../redux/profile-reducer";
-import { withRouter, Redirect } from "react-router-dom";
+import {
+  changeAvatar,
+  getStatus,
+  getUserProfile,
+  saveProfile,
+  setUserProfile,
+  updateStatus,
+} from "../../redux/profile-reducer";
+import { withRouter } from "react-router-dom";
 import { compose } from "redux";
 
 class ProfileContainer extends React.Component {
@@ -25,13 +32,12 @@ class ProfileContainer extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.match.params.userId != prevProps.match.params.userId) {
+    if (this.props.match.params.userId !== prevProps.match.params.userId) {
       this.getProfile();
     }
   }
 
   render() {
-
     return (
       <Profile
         {...this.props}
@@ -42,6 +48,7 @@ class ProfileContainer extends React.Component {
         status={this.props.status}
         updateStatus={this.props.updateStatus}
         changeAvatar={this.props.changeAvatar}
+        saveProfile={this.props.saveProfile}
       />
     );
   }
@@ -63,6 +70,7 @@ export default compose(
     getStatus,
     updateStatus,
     changeAvatar,
+    saveProfile,
   }),
   withRouter
 )(ProfileContainer);

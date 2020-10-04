@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+import styles from "./ProfileInfo.module.css";
 
 const ProfileStatusWithHooks = (props) => {
   let [editMode, setEditMode] = useState(false);
@@ -22,9 +25,10 @@ const ProfileStatusWithHooks = (props) => {
     setStatus(props.status);
   }, [props.status]);
 
-
   return (
-    <div>
+    <div className={styles.statusContainer}>
+      <b>Status:</b>
+
       {!editMode && (
         <div>
           <span onDoubleClick={activateEditMode}>{props.status || "your statue could be here"}</span>
@@ -32,7 +36,12 @@ const ProfileStatusWithHooks = (props) => {
       )}
       {editMode && (
         <div>
-          <input autoFocus={true} onBlur={deactivateEditMode} onChange={onStatusChange} value={status!==null ? status : "your status..."} />
+          <input
+            autoFocus={true}
+            onBlur={deactivateEditMode}
+            onChange={onStatusChange}
+            value={status !== null ? status : "your status..."}
+          />
         </div>
       )}
     </div>
