@@ -10,18 +10,13 @@ let Users = ({
   unfollow,
   follow,
   followingInProgress,
+  followUnfollow,
   ...props
 }) => {
   return (
     <div>
       {users.map((user) => (
-        <User
-          user={user}
-          followingInProgress={followingInProgress}
-          follow={follow}
-          unfollow={unfollow}
-          key={user.id}
-        />
+        <User user={user} followingInProgress={followingInProgress} followUnfollow={followUnfollow} key={user.id} />
       ))}
     </div>
   );
