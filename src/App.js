@@ -12,8 +12,9 @@ import { initializeApp } from "./redux/app-reducer";
 import Preloader from "./components/Common/Preaolader/Preloader";
 import store from "./redux/redux-store";
 import { Provider } from "react-redux";
-import { HashRouter } from "react-router-dom";
 import SuspenseHOC from "./HOC/Suspense";
+import { Redirect } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 // import ProfileContainer from "./components/Profile/ProfileContainer";
 // import DialogsContainer from "./components/Dialogs/DialogsContainer";
@@ -31,6 +32,7 @@ class App extends React.Component {
         <HeaderContainer />
         <Navbar />
         <div className="app-wrapper-content">
+          <Route exact path="/social-network" render={() => <Redirect to={`/profile/${this.props.meId}`} />} />
           <Route path="/dialogs" render={SuspenseHOC(DialogsContainer)} />
           <Route path="/users" render={() => <UsersContainer />} />
           <Route path="/profile/:userId?" render={SuspenseHOC(ProfileContainer)} />
@@ -44,6 +46,7 @@ class App extends React.Component {
 const mapStateToProps = (state) => {
   return {
     initialized: state.app.initialized,
+    meId: state.auth.userId,
   };
 };
 
@@ -56,11 +59,11 @@ let AppContainer = compose(
 
 let MainApp = () => {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Provider store={store}>
         <AppContainer />
       </Provider>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 

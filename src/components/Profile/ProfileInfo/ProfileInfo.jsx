@@ -1,20 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import s from "./ProfileInfo.module.css";
 import Preloader from "../../Common/Preaolader/Preloader";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import UserAvatar from "../../../assets/images/1505926268182046858.png";
 import ProfileDataForm from "./ProfileDataForm";
 
-const ProfileInfo = ({ profile, status, updateStatus, isOwner, meId, changeAvatar, saveProfile }) => {
-  let [editMode, setEditMode] = useState(false);
+const ProfileInfo = ({ profile, status, updateStatus, isOwner, meId, changeAvatar, saveProfile, flag, setFlag }) => {
   if (!profile) {
     return <Preloader />;
   }
 
   const onSubmit = (profile) => {
-    saveProfile(profile).then(() => {
-      setEditMode(false);
-    });
+    saveProfile(profile);
   };
 
   const avatarSelected = (e) => {
@@ -29,15 +26,10 @@ const ProfileInfo = ({ profile, status, updateStatus, isOwner, meId, changeAvata
         <img className={s.userAvatar} src={profile.photos.large || UserAvatar} alt="фото" />
         {isOwner === meId ? <input type="file" onChange={avatarSelected} /> : null}
         <ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
-        {editMode ? (
-          <ProfileDataForm
-            onSubmit={onSubmit}
-            offEditMode={() => setEditMode(false)}
-            initialValues={profile}
-            profile={profile}
-          />
+        {flag ? (
+          <ProfileDataForm onSubmit={onSubmit} initialValues={profile} profile={profile} />
         ) : (
-          <ProfileData profile={profile} isOwner={isOwner} meId={meId} onEditMode={() => setEditMode(true)} />
+          <ProfileData profile={profile} isOwner={isOwner} meId={meId} onEditMode={() => setFlag(true)} />
         )}
       </div>
     </div>
@@ -45,6 +37,7 @@ const ProfileInfo = ({ profile, status, updateStatus, isOwner, meId, changeAvata
 };
 
 const ProfileData = ({ profile, onEditMode, isOwner, meId }) => {
+
   return (
     <div>
       <div>

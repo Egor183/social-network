@@ -24,6 +24,7 @@ export const userAPI = {
 
 export const profileAPI = {
   getProfile(userId) {
+
     return instance.get(`profile/${userId}`);
   },
 
@@ -36,6 +37,7 @@ export const profileAPI = {
   },
 
   saveProfile(profile) {
+
     return instance.put(`profile`, profile);
   },
 
@@ -60,7 +62,6 @@ export const authAPI = {
   },
 
   login(formData) {
-
     return instance.post(`/auth/login/`, formData);
   },
 

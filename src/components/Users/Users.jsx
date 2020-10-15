@@ -10,6 +10,7 @@ let Users = ({
   unfollow,
   follow,
   followingInProgress,
+  followUnfollow,
   ...props
 }) => {
   return (
@@ -21,6 +22,7 @@ let Users = ({
           follow={follow}
           unfollow={unfollow}
           key={user.id}
+          followUnfollow={followUnfollow}
         />
       ))}
     </div>

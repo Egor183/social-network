@@ -1,14 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  follow,
-  followSuccess,
-  requestUsers,
-  setCurrentPage,
-  toggleIsFollowingProcess,
-  unfollow,
-  unfollowSuccess,
-} from "../../redux/users-reducer";
+import { followUnfollow, requestUsers, setCurrentPage, toggleIsFollowingProcess } from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../Common/Preaolader/Preloader";
 import { compose } from "redux";
@@ -16,9 +8,10 @@ import {
   getCurrentPage,
   getFollowingInProgress,
   getIsFetching,
-  getPageSize, getPortionSize,
+  getPageSize,
+  getPortionSize,
   getTotalUserCount,
-  getUsers
+  getUsers,
 } from "../../redux/users-selectors";
 import Paginator from "../Common/Paginator/Paginator";
 
@@ -53,12 +46,9 @@ class UsersContainer extends React.Component {
             onPageChanged={this.onPageChanged}
             currentPage={this.props.currentPage}
             users={this.props.users}
-            followSuccess={this.props.followSuccess}
-            unfollowSuccess={this.props.unfollowSuccess}
             followingInProgress={this.props.followingInProgress}
             toggleIsFollowingProcess={this.props.toggleIsFollowingProcess}
-            follow={this.props.follow}
-            unfollow={this.props.unfollow}
+            followUnfollow={this.props.followUnfollow}
           />
         )}
       </>
@@ -95,12 +85,9 @@ let mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps, {
-    followSuccess,
-    unfollowSuccess,
+    followUnfollow,
     setCurrentPage,
     toggleIsFollowingProcess,
     requestUsers,
-    follow,
-    unfollow,
   })
 )(UsersContainer);
