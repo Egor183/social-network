@@ -2,20 +2,22 @@ import React from "react";
 import s from "./Dialogs.module.css";
 import DialogItem from "./DialogItem/DialogsItem";
 import Message from "./Message/Message";
-import { Field, reduxForm } from "redux-form";
+import {  reduxForm } from "redux-form";
 import { Textarea } from "../Common/FormsControls/FormsControls";
-import { maxLengthCreator, required } from "../../utils/validators/validator";
-
-const maxLength10 = maxLengthCreator(10);
+import { DialogsContainerStyled, FlexContainerStyled } from "../../styledComponents/Dialogs";
+import { ColumnBlockStyled } from "../../styledComponents/Login";
+import { InputFileStyledBlue } from "../../styledComponents/ProfileInfo";
+import { TextAreaStyled } from "../../styledComponents/MyPostsContainer";
+import { required } from "../../utils/validators/validator";
 
 const AddMessageForm = (props) => {
   return (
     <form onSubmit={props.handleSubmit}>
-      <div>
-        <Field placeholder="Send message" name="message" component={Textarea} validate={[required, maxLength10]} />
-      </div>
-      <div>
-        <button>Add post</button>
+      <div style={{ width: "400px" }}>
+        <TextAreaStyled placeholder="Send message" name="message" component={Textarea} validate={[required]} />
+        <FlexContainerStyled justify="flex-end">
+          <InputFileStyledBlue as="button">Send message</InputFileStyledBlue>
+        </FlexContainerStyled>
       </div>
     </form>
   );
@@ -36,13 +38,13 @@ const Dialogs = ({ dialogs, messages, addMessageActionCreator }) => {
     addMessageActionCreator(formData);
   };
   return (
-    <div className={s.dialogs}>
-      <div className={s.dialogItems}>{dialogsElement}</div>
+    <DialogsContainerStyled className={s.dialogs}>
+      <ColumnBlockStyled>{dialogsElement}</ColumnBlockStyled>
       <div className={s.messages}>
         <div>{messagesElements}</div>
         <TextAreaReduxForm onSubmit={onSubmit} />
       </div>
-    </div>
+    </DialogsContainerStyled>
   );
 };
 

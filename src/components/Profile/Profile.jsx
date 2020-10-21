@@ -1,8 +1,13 @@
 import React from "react";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
+import Preloader from "../Common/Preaolader/Preloader";
 
 const Profile = ({ profile, status, updateStatus, isOwner, meId, changeAvatar, saveProfile, flag, setFlag }) => {
+  if (!profile) {
+    return <Preloader />;
+  }
+
   return (
     <div>
       <ProfileInfo
@@ -16,7 +21,7 @@ const Profile = ({ profile, status, updateStatus, isOwner, meId, changeAvatar, s
         flag={flag}
         setFlag={setFlag}
       />
-      <MyPostsContainer />
+      <MyPostsContainer profile={profile} />
     </div>
   );
 };

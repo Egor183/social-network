@@ -6,7 +6,8 @@ import { connect } from "react-redux";
 import { login } from "../../redux/auth-reducer";
 import withAuthRedirect from "../../HOC/withAuthRedirect";
 import { Redirect } from "react-router-dom";
-import styles from "../Common/FormsControls/FormsControls.module.css";
+import { ColumnBlockStyled, SummaryErrorStyled } from "../../styledComponents/Login";
+import { InputFileStyledBlue } from "../../styledComponents/ProfileInfo";
 
 const Login = ({ login, isAuth, meId, captcha }) => {
   const onSubmit = (formData) => {
@@ -16,30 +17,34 @@ const Login = ({ login, isAuth, meId, captcha }) => {
     return <Redirect to={"/profile/" + meId} />;
   }
   return (
-    <div>
+    <ColumnBlockStyled className="LoginForm">
       <h1>Login</h1>
       <LoginReduxForm onSubmit={onSubmit} captcha={captcha} />
-    </div>
+    </ColumnBlockStyled>
   );
 };
 
 const LoginForm = ({ handleSubmit, error, captcha }) => {
   return (
-    <form onSubmit={handleSubmit}>
-      {createField("text", "Login", "email", Input, [required])}
-      {createField("password", "Password", "password", Input, [required])}
-      {createField("checkbox", null, "rememberMe", Input, null, "remember me")}
-      {error && <div className={styles.formSummaryError}>{error}</div>}
+    <ColumnBlockStyled as="form" onSubmit={handleSubmit}>
       <div>
-        <button>Login</button>
+        {createField("text", "Login", "email", Input, [required], null, 170)}
+        {createField("password", "Password", "password", Input, [required], null, 170)}
+        {createField("checkbox", null, "rememberMe", Input, null, "remember me", 20)}
+        {error && <SummaryErrorStyled>{error}</SummaryErrorStyled>}
       </div>
+
+      <InputFileStyledBlue as="button" width={100}>
+        Login
+      </InputFileStyledBlue>
+
       {captcha && (
         <div>
           <img src={captcha} alt="captcha" />
           {createField("text", "captcha", "captcha", Input, [required])}
         </div>
       )}
-    </form>
+    </ColumnBlockStyled>
   );
 };
 

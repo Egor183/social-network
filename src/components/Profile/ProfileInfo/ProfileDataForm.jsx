@@ -2,44 +2,46 @@ import React from "react";
 import { reduxForm } from "redux-form";
 import { createField, Input, Textarea } from "../../Common/FormsControls/FormsControls";
 import { required } from "../../../utils/validators/validator";
-import styles from "./ProfileInfo.module.css";
+
+import { FieldContainerStyled, FormSummaryError, InputFileStyledBlue } from "../../../styledComponents/ProfileInfo";
 
 const ProfileData = ({ handleSubmit, profile, error }) => {
   return (
     <form onSubmit={handleSubmit}>
-      <div>
+      <FieldContainerStyled>
         <b>Full name:</b>
-        {createField("text", "fullName", "fullName", Input, [required])}
-      </div>
+        {createField("text", "fullName", "fullName", Input, [required], null, 180)}
+      </FieldContainerStyled>
 
-      <div>
-        <b>Looking for a job:</b>
-        {createField("checkbox", "lookingForAJob", "lookingForAJob", Input)}
-      </div>
+      <FieldContainerStyled style={{ display: "flex" }}>
+        <b style={{ marginRight: "10px" }}>Looking for a job:</b>
+        {createField("checkbox", "lookingForAJob", "lookingForAJob", Input, null, null, 20)}
+      </FieldContainerStyled>
 
-      <div>
+      <FieldContainerStyled>
         <b>Professional skills:</b>
         {createField(null, "lookingForAJobDescription", "lookingForAJobDescription", Textarea, [required])}
-      </div>
+      </FieldContainerStyled>
 
-      <div>
+      <FieldContainerStyled>
         <b>About me:</b>
         {createField(null, "aboutMe", "aboutMe", Textarea, [required])}
-      </div>
+      </FieldContainerStyled>
 
       <div>
         <b>Contacts:</b>
         {Object.keys(profile.contacts).map((key) => {
           return (
-            <div key={key} className={styles.contactsFormsContainer}>
-              <b className={styles.contactFormName}>{key}</b> {createField("text", `${key}`, `contacts[${key}]`, Input)}
-            </div>
+            <FieldContainerStyled key={key} className={"contactsFormsContainer"}>
+              <b style={{ width: "100px" }}>{key}</b>{" "}
+              {createField("text", `${key}`, `contacts[${key}]`, Input, null, null, 180)}
+            </FieldContainerStyled>
           );
         })}
       </div>
-      {error && <div className={styles.formSummaryError}>{error}</div>}
+      {error && <FormSummaryError>{error}</FormSummaryError>}
       <div>
-        <button>Save</button>
+        <InputFileStyledBlue as="button">Save</InputFileStyledBlue>
       </div>
     </form>
   );

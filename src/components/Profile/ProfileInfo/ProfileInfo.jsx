@@ -1,15 +1,16 @@
 import React from "react";
-import s from "./ProfileInfo.module.css";
-import Preloader from "../../Common/Preaolader/Preloader";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
-import UserAvatar from "../../../assets/images/1505926268182046858.png";
+import UserAvatar from "../../../assets/images/FAVPNG_samsung-galaxy-a8-a8-user-login-telephone-avatar_peutPpGD.png";
 import ProfileDataForm from "./ProfileDataForm";
 
-const ProfileInfo = ({ profile, status, updateStatus, isOwner, meId, changeAvatar, saveProfile, flag, setFlag }) => {
-  if (!profile) {
-    return <Preloader />;
-  }
+import {
+  CategoryBoxStyled,
+  CategoryNameStyled,
+  InputFileStyledGray,
+  ProfileInfoStyled,
+} from "../../../styledComponents/ProfileInfo";
 
+const ProfileInfo = ({ profile, status, updateStatus, isOwner, meId, changeAvatar, saveProfile, flag, setFlag }) => {
   const onSubmit = (profile) => {
     saveProfile(profile);
   };
@@ -21,10 +22,16 @@ const ProfileInfo = ({ profile, status, updateStatus, isOwner, meId, changeAvata
   };
 
   return (
-    <div>
-      <div className={s.descriptionBlock}>
-        <img className={s.userAvatar} src={profile.photos.large || UserAvatar} alt="фото" />
-        {isOwner === meId ? <input type="file" onChange={avatarSelected} /> : null}
+    <ProfileInfoStyled>
+      <div className="avatarBlock">
+        <img className="userAvatar" src={profile.photos.large || UserAvatar} alt="фото" />
+        {isOwner === meId ? (
+          <InputFileStyledGray>
+            <input type="file" onChange={avatarSelected} /> Change avatar
+          </InputFileStyledGray>
+        ) : null}
+      </div>
+      <div className="userInformation">
         <ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
         {flag ? (
           <ProfileDataForm onSubmit={onSubmit} initialValues={profile} profile={profile} />
@@ -32,46 +39,49 @@ const ProfileInfo = ({ profile, status, updateStatus, isOwner, meId, changeAvata
           <ProfileData profile={profile} isOwner={isOwner} meId={meId} onEditMode={() => setFlag(true)} />
         )}
       </div>
-    </div>
+    </ProfileInfoStyled>
   );
 };
 
 const ProfileData = ({ profile, onEditMode, isOwner, meId }) => {
-
   return (
     <div>
-      <div>
-        <b>Full name:</b>
+      <CategoryBoxStyled>
+        <CategoryNameStyled>Full name:</CategoryNameStyled>
         {profile.fullName}
-      </div>
-      <div>
-        <b>About me:</b>
+      </CategoryBoxStyled>
+      <CategoryBoxStyled>
+        <CategoryNameStyled>About me:</CategoryNameStyled>
         {profile.aboutMe || "there is no information about me"}
-      </div>
-      <div>
-        <b>Looking for a job:</b> {profile.lookingForAJob ? "yes" : "no"}
-      </div>
+      </CategoryBoxStyled>
+      <CategoryBoxStyled>
+        <CategoryNameStyled>Looking for a job:</CategoryNameStyled> {profile.lookingForAJob ? "yes" : "no"}
+      </CategoryBoxStyled>
       {profile.lookingForAJob && (
-        <div>
-          <b>Professional skills:</b> {profile.lookingForAJobDescription}
-        </div>
+        <CategoryBoxStyled>
+          <CategoryNameStyled> Professional skills:</CategoryNameStyled> {profile.lookingForAJobDescription}
+        </CategoryBoxStyled>
       )}
       <div>
-        <b>Contacts:</b>
+        <CategoryNameStyled>Contacts:</CategoryNameStyled>
         {Object.keys(profile.contacts).map((key) => {
           return <Contact key={key} contactName={key} contactValue={profile.contacts[key]} />;
         })}
       </div>
-      {isOwner === meId ? <button onClick={onEditMode}>Edit mode</button> : null}
+      {isOwner === meId ? (
+        <InputFileStyledGray as="button" onClick={onEditMode} className="editMode">
+          Edit mode
+        </InputFileStyledGray>
+      ) : null}
     </div>
   );
 };
 
 const Contact = ({ contactName, contactValue }) => {
   return (
-    <div className={s.contact}>
-      <b>{contactName}:</b> {contactValue}
-    </div>
+    <CategoryBoxStyled className="contact">
+      <CategoryNameStyled>{contactName}:</CategoryNameStyled> {contactValue}
+    </CategoryBoxStyled>
   );
 };
 

@@ -1,31 +1,15 @@
 import React from "react";
-import s from "./Header.module.css";
-import { NavLink } from "react-router-dom";
+import { HeaderContainer, UserPhoto } from "../../styledComponents/Header";
+import user from "./../../assets/images/FAVPNG_samsung-galaxy-a8-a8-user-login-telephone-avatar_peutPpGD.png";
+import { Login } from "../../styledComponents/Navbar";
+
 const Header = (props) => {
+
   return (
-    <header className={s.header}>
-      <img
-        className={s.userPhoto}
-        alt="user"
-        src={
-          props.userPhoto
-            ? props.userPhoto
-            : `https://i.pinimg.com/originals/49/5d/61/495d61514f07f457df6a7fc4ef87b428.png`
-        }
-      />
-      <div className={s.loginBlock}>
-        {props.isAuth ? (
-          <div>
-            {props.login}
-            <div>
-              <button onClick={props.logout}>Logout</button>
-            </div>
-          </div>
-        ) : (
-          <NavLink to="/login">Login</NavLink>
-        )}
-      </div>
-    </header>
+    <HeaderContainer>
+      <UserPhoto alt="user" src={props.isAuth ? props.photo : user} />
+      <div>{props.isAuth ? <div>{props.login}</div> : <Login to="/login">Login</Login>}</div>
+    </HeaderContainer>
   );
 };
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import styles from "./ProfileInfo.module.css";
+import { CategoryNameStyled, FieldContainerStyled } from "../../../styledComponents/ProfileInfo";
 
 const ProfileStatusWithHooks = (props) => {
   let [editMode, setEditMode] = useState(false);
@@ -26,12 +26,11 @@ const ProfileStatusWithHooks = (props) => {
   }, [props.status]);
 
   return (
-    <div className={styles.statusContainer}>
-      <b>Status:</b>
-
+    <FieldContainerStyled className="status">
+      <CategoryNameStyled  >Status:</CategoryNameStyled>
       {!editMode && (
         <div>
-          <span onDoubleClick={activateEditMode}>{props.status || "your statue could be here"}</span>
+          <span onDoubleClick={activateEditMode}>{props.status || "your status could be here"}</span>
         </div>
       )}
       {editMode && (
@@ -44,7 +43,7 @@ const ProfileStatusWithHooks = (props) => {
           />
         </div>
       )}
-    </div>
+    </FieldContainerStyled>
   );
 };
 

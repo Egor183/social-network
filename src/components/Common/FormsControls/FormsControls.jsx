@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./FormsControls.module.css";
-import { Field } from "redux-form";
+import { InputEditProfileStyled, TextAreaEditProfileStyled } from "../../../styledComponents/MyPostsContainer";
 
 const FormControl = ({ meta: { error, touched }, children }) => {
   const hasError = error && touched;
@@ -30,10 +30,32 @@ export const Input = (props) => {
   );
 };
 
-export const createField = (type, placeholder, name, component, validator, text, props = {}) => {
+export const createField = (type, placeholder, name, component, validator, text, width) => {
+  if (component === Input) {
+    return (
+      <div style={{ display: "flex" }}>
+        <InputEditProfileStyled
+          type={type}
+          placeholder={placeholder}
+          name={name}
+          component={component}
+          validate={validator}
+          width={width}
+        />{" "}
+        {text}
+      </div>
+    );
+  }
   return (
     <div>
-      <Field type={type} placeholder={placeholder} name={name} component={component} validate={validator} /> {text}
+      <TextAreaEditProfileStyled
+        type={type}
+        placeholder={placeholder}
+        name={name}
+        component={component}
+        validate={validator}
+      />
+      {text}
     </div>
   );
 };

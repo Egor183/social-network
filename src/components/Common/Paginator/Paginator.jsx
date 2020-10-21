@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import styles from "./Paginator.module.css";
+import { PageStyled } from "../../../styledComponents/Paginator";
+import { InputFileStyledGray } from "../../../styledComponents/ProfileInfo";
+import { FlexContainerStyled } from "../../../styledComponents/Dialogs";
 
 let Paginator = ({ totalItemsCount, pageSize, currentPage, onPageChanged, portionSize }) => {
   let pagesCount = Math.ceil(totalItemsCount / pageSize);
@@ -14,23 +16,37 @@ let Paginator = ({ totalItemsCount, pageSize, currentPage, onPageChanged, portio
   let leftPortionPageNumber = rightPortionPageNumber - portionSize + 1;
 
   return (
-    <div>
-      {portionNumber > 1 && <button onClick={() => setPortionNumber(portionNumber - 1)}>prev</button>}
+    <FlexContainerStyled align="center" >
+      {portionNumber > 1 && (
+        <InputFileStyledGray
+          className="noMargin"
+          width="50"
+          as="button"
+          onClick={() => setPortionNumber(portionNumber - 1)}
+        >
+          prev
+        </InputFileStyledGray>
+      )}
       {pages
         .filter((p) => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
         .map((p) => {
           return (
-            <span
-              className={`${p === currentPage ? styles.selectedPage : undefined} ${styles.page}`}
-              onClick={() => onPageChanged(p)}
-              key={p}
-            >
+            <PageStyled p={p} currentPage={currentPage} onClick={() => onPageChanged(p)} key={p}>
               {p}
-            </span>
+            </PageStyled>
           );
         })}
-      {portionNumber < portionCount && <button onClick={() => setPortionNumber(portionNumber + 1)}>next</button>}
-    </div>
+      {portionNumber < portionCount && (
+        <InputFileStyledGray
+          className="noMargin"
+          width="50"
+          as="button"
+          onClick={() => setPortionNumber(portionNumber + 1)}
+        >
+          next
+        </InputFileStyledGray>
+      )}
+    </FlexContainerStyled>
   );
 };
 

@@ -1,19 +1,13 @@
 import React from "react";
-import s from "./Post.module.css";
+import user from "./../../../../assets/images/FAVPNG_samsung-galaxy-a8-a8-user-login-telephone-avatar_peutPpGD.png";
+import { PostStyled } from "../../../../styledComponents/MyPostsContainer";
 
 const Post = (props) => {
   return (
-    <div className={s.item}>
-      <img
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRkUm8Lemuzy9dc-h2pqUD6pawuW0QK_bKwxg&usqp=CAU"
-        alt=""
-      />
+    <PostStyled>
+      <img src={props.profile.photos.large ? props.profile.photos.large : user} alt="" />
       {props.message}
-      <div>
-        <span>like:</span>
-        {props.likesCount}
-      </div>
-    </div>
+    </PostStyled>
   );
 };
 

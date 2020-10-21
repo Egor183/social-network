@@ -1,5 +1,6 @@
-import { authAPI } from "../API/api";
+import { authAPI, profileAPI } from "../API/api";
 import { stopSubmit } from "redux-form";
+import { call } from "redux-saga/effects";
 
 const SET_USER_PHOTO = "social-network/auth/SET_USER_PHOTO";
 const SET_USER_DATA = `social-network/auth/SET_USER_DATA`;
@@ -12,6 +13,7 @@ let initialState = {
   email: null,
   isFetching: false,
   isAuth: false,
+  photo: null,
   captcha: null,
   count: 0,
 };
@@ -40,13 +42,14 @@ const authReducer = (state = initialState, action) => {
   }
 };
 
-export const setAuthUserData = (userId, email, login, isAuth) => ({
+export const setAuthUserData = (userId, email, login, isAuth, photo) => ({
   type: SET_USER_DATA,
   payload: {
     email,
     userId,
     login,
     isAuth,
+    photo
   },
 });
 
@@ -66,7 +69,9 @@ export const setAuth = () => {
     let response = await authAPI.getAuthMe();
     if (response.data.resultCode === 0) {
       let { id, login, email } = response.data.data;
-      dispatch(setAuthUserData(id, email, login, true));
+      let profile = await profileAPI.getProfile(id);
+      let photo = profile.data.photos.small;
+      dispatch(setAuthUserData(id, email, login, true, photo));
     }
   };
 };
