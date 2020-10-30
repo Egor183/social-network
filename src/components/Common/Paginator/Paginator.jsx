@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import styles from "./Paginator.module.css";
-import classnames from "classnames/bind";
-
-
-
+import cx from "classnames/bind";
+import rightArrow from "./../../../assets/images/right.png";
+import leftArrow from "./../../../assets/images/left.png";
 
 let Paginator = ({ totalItemsCount, pageSize, currentPage, onPageChanged, portionSize }) => {
   let pagesCount = Math.ceil(totalItemsCount / pageSize);
@@ -17,18 +16,19 @@ let Paginator = ({ totalItemsCount, pageSize, currentPage, onPageChanged, portio
   let rightPortionPageNumber = portionNumber * portionSize;
   let leftPortionPageNumber = rightPortionPageNumber - portionSize + 1;
 
-
-
-
   return (
-    <div>
-      {portionNumber > 1 && <button onClick={() => setPortionNumber(portionNumber - 1)}>prev</button>}
+    <div className={styles.paginator}>
+      {portionNumber > 1 && (
+        <button className={styles.arrowButton} onClick={() => setPortionNumber(portionNumber - 1)}>
+          <img className={styles.arrow} src={leftArrow} alt="next" /> prev
+        </button>
+      )}
       {pages
         .filter((p) => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
         .map((p) => {
           return (
             <span
-              className={classnames({ [styles.selectedPage] : currentPage === p} ,styles.page)}
+              className={cx({ [styles.selectedPage]: currentPage === p }, styles.page)}
               onClick={() => onPageChanged(p)}
               key={p}
             >
@@ -36,7 +36,12 @@ let Paginator = ({ totalItemsCount, pageSize, currentPage, onPageChanged, portio
             </span>
           );
         })}
-      {portionNumber < portionCount && <button onClick={() => setPortionNumber(portionNumber + 1)}>next</button>}
+      {portionNumber < portionCount && (
+        <button className={styles.arrowButton} onClick={() => setPortionNumber(portionNumber + 1)}>
+          next
+          <img className={styles.arrow} src={rightArrow} alt="next" />{" "}
+        </button>
+      )}
     </div>
   );
 };

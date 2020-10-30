@@ -11,12 +11,12 @@ const TOGGLE_IS_FOLLOWING_PROCESS = "social-network/usersPage/TOGGLE_IS_FOLLOWIN
 
 let initialState = {
   users: [],
-  pageSize: 5,
+  pageSize: 6,
   totalUserCount: 0,
   currentPage: 1,
   isFetching: false,
   followingInProgress: [],
-  portionSize: 10,
+  portionSize: 15,
 };
 
 const usersReducer = (state = initialState, action) => {

@@ -1,20 +1,24 @@
 import React from "react";
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import { Field, reduxForm } from "redux-form";
-import { maxLengthCreator, required } from "../../../utils/validators/validator";
+import { Field, reduxForm, reset } from "redux-form";
+import { required } from "../../../utils/validators/validator";
 import { Textarea } from "../../Common/FormsControls/FormsControls";
-
-const maxLength10 = maxLengthCreator(10);
 
 const AddPostForm = (props) => {
   return (
     <form onSubmit={props.handleSubmit}>
       <div>
-        <Field placeholder="Send post" name="post" component={Textarea} validate={[required, maxLength10]} />
+        <Field
+          placeholder="Write a post..."
+          name="post"
+          component={Textarea}
+          validate={[required]}
+          className={s.textarea}
+        />
       </div>
-      <div>
-        <button>Add post</button>
+      <div className={s.buttonWrapper}>
+        <button className={s.commonButton}>Add post</button>
       </div>
     </form>
   );
@@ -24,16 +28,18 @@ const TextAreaReduxForm = reduxForm({
   form: "addPost",
 })(AddPostForm);
 
-const MyPosts = React.memo(({ addPost, posts }) => {
-  const onSubmit = (formData) => {
+const MyPosts = React.memo(({ addPost, posts, profile }) => {
+  const onSubmit = (formData, dispatch) => {
     addPost(formData.post);
+    dispatch(reset("addPost"));
   };
-  let postsElements = posts.map((elem) => <Post message={elem.message} likesCount={elem.likesCount} key={elem.id} />);
+  let postsElements = posts.map((elem) => (
+    <Post message={elem.message} likesCount={elem.likesCount} key={elem.id} profile={profile} />
+  ));
   return (
-    <div className={s.postsBlock}>
-      <h3>My posts</h3>
+    <div>
+      <h3 className={s.myPostsName}>My posts</h3>
       <TextAreaReduxForm onSubmit={onSubmit} />
-      <div>New posts</div>
       <div className={s.posts}>{postsElements}</div>
     </div>
   );

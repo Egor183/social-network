@@ -1,7 +1,62 @@
-.postsBlock {
-  padding: 10px;
-}
-
 .posts {
   margin-top: 10px;
+}
+
+.myPostsName {
+  font-family: sans-serif;
+  color: #292929;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.textarea {
+  background-color: #e5e1d6;
+  border: none;
+  width: 100%;
+  height: 100px;
+  resize: none;
+  border-radius: 3px;
+  padding: 20px;
+  box-sizing: border-box;
+  outline: none;
+  font-size: 16px;
+  color: #786d69;
+  overflow: hidden;
+}
+
+.commonButton {
+  /*background-color: #26d8a4;*/
+  background: linear-gradient(217deg, #26d8a4, #32b38c 70.71%);
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-family: sans-serif;
+  color: white;
+  border-radius: 3px;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.commonButtonDisabled {
+  background: #292929;
+  color: #e5e1d6;
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-family: sans-serif;
+  border-radius: 3px;
+  margin-top: 10px;
+  font-weight: 600;
+}
+.commonButtonDisabled:hover {
+  cursor: pointer;
+}
+
+.commonButton:hover {
+  cursor: pointer;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: flex-end;
 }

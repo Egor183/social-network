@@ -4,6 +4,7 @@
 .page {
   margin: 0 5px;
   cursor: pointer;
+  font-family: sans-serif;
 }
 
 .noActive {
@@ -12,4 +13,33 @@
 
 .active {
   display: block;
+}
+
+.paginator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+.arrow {
+  width: 10px;
+  height: 10px;
+}
+
+.arrowButton {
+  border: none;
+  height: 30px;
+  background-color: #e5e1d6;
+  padding: 10px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  font-weight: 600;
+  font-family: sans-serif;
+}
+
+.arrowButton:hover {
+  cursor: pointer;
 }

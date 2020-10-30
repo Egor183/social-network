@@ -2,6 +2,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Social network on react-redux. And also axios, redux-form, redux-thunk, reselect, react-test-renderer, JEST.
 
+Since the project is educational, I left single pieces of old unreported code.
+
 ## Available Scripts
 
 In the project directory, you can run:

@@ -7,6 +7,10 @@ import { login } from "../../redux/auth-reducer";
 import withAuthRedirect from "../../HOC/withAuthRedirect";
 import { Redirect } from "react-router-dom";
 import styles from "../Common/FormsControls/FormsControls.module.css";
+import s from "../Login/Login.module.css";
+import btnSt from "./../Profile/MyPosts/MyPosts.module.css";
+import cx from "classnames";
+import "../Common/FormsControls/checkboxStyledSquare.css";
 
 const Login = ({ login, isAuth, meId, captcha }) => {
   const onSubmit = (formData) => {
@@ -16,8 +20,8 @@ const Login = ({ login, isAuth, meId, captcha }) => {
     return <Redirect to={"/profile/" + meId} />;
   }
   return (
-    <div>
-      <h1>Login</h1>
+    <div className={s.loginContainer}>
+      <h1 className={s.loginName}>Login</h1>
       <LoginReduxForm onSubmit={onSubmit} captcha={captcha} />
     </div>
   );
@@ -26,16 +30,18 @@ const Login = ({ login, isAuth, meId, captcha }) => {
 const LoginForm = ({ handleSubmit, error, captcha }) => {
   return (
     <form onSubmit={handleSubmit}>
-      {createField("text", "Login", "email", Input, [required])}
-      {createField("password", "Password", "password", Input, [required])}
-      {createField("checkbox", null, "rememberMe", Input, null, "remember me")}
-      {error && <div className={styles.formSummaryError}>{error}</div>}
-      <div>
-        <button>Login</button>
+      <div className={s.loginBlock}>
+        <div>{createField("text", "Login", "email", Input, [required])}</div>
+        <div>{createField("password", "Password", "password", Input, [required])}</div>
+        <div>{createField("checkbox", null, "rememberMe", Input, null, "remember me", "remember")}</div>
+        <div className={s.buttonWrapper}>
+          <button className={cx(btnSt.commonButton)}>Login</button>
+        </div>
+        <div>{error && <p className={styles.formSummaryError}>{error}</p>}</div>
       </div>
       {captcha && (
         <div>
-          <img src={captcha} alt="captcha" />
+          <img src={captcha} alt="captcha" className={s.captchaImg} />
           {createField("text", "captcha", "captcha", Input, [required])}
         </div>
       )}

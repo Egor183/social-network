@@ -1,25 +1,29 @@
 .nav {
   grid-area: n;
-  background-color: blueviolet;
+  background-color: #292929;
   padding: 20px;
+  padding-top: 80px;
+  position: fixed;
+  height: 100%;
+  width: 150px;
+  box-sizing: border-box;
+}
+
+.item {
+  margin-bottom: 15px;
+}
+
+.item a:hover {
+  color: white;
+  transition: 0.5s;
 }
 
 .item a {
-  color: white;
+  color: #abaaa6;
   text-decoration: none;
 }
 
-.poditem {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.itemLast {
-  margin-top: 30px;
-}
-
 .item a.active {
-  color: gold;
+  color: white;
   text-decoration: none;
 }

@@ -1,10 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
 import Header from "./Header";
-import { logout } from "../../redux/auth-reducer";
+import { logout, setEditMode } from "../../redux/auth-reducer";
+import { compose } from "redux";
+import { withRouter } from "react-router-dom";
 
 class HeaderContainer extends React.Component {
-  componentDidMount() {}
+  componentDidUpdate(prevProps) {
+    if (prevProps.editMode) {
+      this.props.setEditMode(false);
+    }
+  }
+
   render() {
     return (
       <>
@@ -19,9 +26,16 @@ let mapStateToProps = (state) => {
     isAuth: state.auth.isAuth,
     login: state.auth.login,
     userPhoto: state.userPhoto,
+    photo: state.auth.photo,
+    meId: state.auth.userId,
+    editMode: state.auth.editMode,
   };
 };
 
-export default connect(mapStateToProps, {
-  logout,
-})(HeaderContainer);
+export default compose(
+  connect(mapStateToProps, {
+    logout,
+    setEditMode,
+  }),
+  withRouter
+)(HeaderContainer);

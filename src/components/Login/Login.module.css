@@ -1,0 +1,29 @@
+.loginBlock {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  font-family: sans-serif;
+}
+
+.loginBlock div {
+  margin-bottom: 10px;
+}
+.loginName {
+  margin-bottom: 20px;
+  font-family: sans-serif;
+  color: #292929;
+}
+
+.buttonWrapper {
+  text-align: center;
+}
+
+.captchaImg{
+  margin-bottom: 20px;
+}
+
+.loginContainer {
+  margin: auto;
+  width: 250px;
+  margin-top: 100px;
+}

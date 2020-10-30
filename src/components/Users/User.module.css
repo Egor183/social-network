@@ -1,12 +1,36 @@
 .userPhoto {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
 }
 
-.user{
-  margin: 15px;
+.user {
+  margin-bottom: 50px;
+  width: 150px;
+  text-align: center;
+  margin-right: 150px;
+}
+
+.followWidth {
+  width: 75px;
+}
+
+.usersContainer {
+  display: flex;
+  flex-wrap: wrap;
+  width: 750px;
+  margin: auto;
+}
+
+.usersContainer div:nth-child(3n) {
+  margin-right: 0;
 }
 
 .numberPage {
   margin-left: 10px;
+}
+
+.userName {
+  color: #2a8063;
+  font-family: sans-serif;
+  font-weight: bolder;
 }

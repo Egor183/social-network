@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import styles from "./ProfileInfo.module.css";
+import s from "./../../Common/FormsControls/FormsControls.module.css";
 
 const ProfileStatusWithHooks = (props) => {
   let [editMode, setEditMode] = useState(false);
@@ -27,7 +28,7 @@ const ProfileStatusWithHooks = (props) => {
 
   return (
     <div className={styles.statusContainer}>
-      <b>Status:</b>
+      <span className={props.editMode ? styles.input : styles.status}>Status:</span>
 
       {!editMode && (
         <div>
@@ -41,6 +42,7 @@ const ProfileStatusWithHooks = (props) => {
             onBlur={deactivateEditMode}
             onChange={onStatusChange}
             value={status !== null ? status : "your status..."}
+            className={s.inputStyle}
           />
         </div>
       )}

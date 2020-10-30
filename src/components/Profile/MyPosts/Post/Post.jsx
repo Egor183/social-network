@@ -1,17 +1,14 @@
 import React from "react";
 import s from "./Post.module.css";
+import usersPhoto from "./../../../../assets/images/defaultuser.png";
 
 const Post = (props) => {
   return (
     <div className={s.item}>
-      <img
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRkUm8Lemuzy9dc-h2pqUD6pawuW0QK_bKwxg&usqp=CAU"
-        alt=""
-      />
-      {props.message}
-      <div>
-        <span>like:</span>
-        {props.likesCount}
+      <img src={props.profile.photos.small ? props.profile.photos.small : usersPhoto} alt="" />
+      <div className={s.postWriterInformation}>
+        <div className={s.writerName}>{props.profile.fullName}</div>
+        <div>{props.message}</div>
       </div>
     </div>
   );

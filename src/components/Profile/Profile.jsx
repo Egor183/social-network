@@ -1,8 +1,23 @@
 import React from "react";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
+import Preloader from "../Common/Preaolader/Preloader";
 
-const Profile = ({ profile, status, updateStatus, isOwner, meId, changeAvatar, saveProfile }) => {
+const Profile = ({
+  profile,
+  status,
+  updateStatus,
+  isOwner,
+  meId,
+  changeAvatar,
+  saveProfile,
+  editMode,
+  setEditMode,
+}) => {
+  if (!profile) {
+    return <Preloader />;
+  }
+
   return (
     <div>
       <ProfileInfo
@@ -13,6 +28,8 @@ const Profile = ({ profile, status, updateStatus, isOwner, meId, changeAvatar, s
         meId={meId}
         changeAvatar={changeAvatar}
         saveProfile={saveProfile}
+        editMode={editMode}
+        setEditMode={setEditMode}
       />
       <MyPostsContainer />
     </div>

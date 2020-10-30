@@ -11,6 +11,8 @@ import {
 } from "../../redux/profile-reducer";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
+import { setEditMode } from "../../redux/auth-reducer";
+
 
 class ProfileContainer extends React.Component {
   getProfile() {
@@ -49,6 +51,8 @@ class ProfileContainer extends React.Component {
         updateStatus={this.props.updateStatus}
         changeAvatar={this.props.changeAvatar}
         saveProfile={this.props.saveProfile}
+        editMode={this.props.editMode}
+        setEditMode={this.props.setEditMode}
       />
     );
   }
@@ -60,6 +64,7 @@ let mapStateToProps = (state) => {
     status: state.profilePage.status,
     meId: state.auth.userId,
     isAuth: state.auth.isAuth,
+    editMode: state.auth.editMode,
   };
 };
 
@@ -71,6 +76,7 @@ export default compose(
     updateStatus,
     changeAvatar,
     saveProfile,
+    setEditMode,
   }),
   withRouter
 )(ProfileContainer);

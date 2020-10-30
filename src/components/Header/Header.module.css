@@ -1,21 +1,71 @@
 .header {
   grid-area: h;
-  background-color: green;
+  background-color: #32b38c;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   padding: 0 20px;
+  position: fixed;
+  width: 1024px;
+  height: 60px;
+  box-sizing: border-box;
+  z-index: 5;
+
 }
 
 .loginBlock {
-  float: right;
+  display: flex;
+  align-items: flex-end;
+  color: white;
+}
+.menuPoint {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #abaaa6;
+  outline: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-family: sans-serif;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+.menuPoint:hover {
+  color: white;
+}
+
+.menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #292929;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 3;
+  padding: 10px 0 0 15px;
 }
 
 .loginBlock a {
   color: white;
+  text-decoration: none;
+}
+
+.arrow {
+  width: 15px;
+  height: 15px;
+  margin-left: 10px;
+}
+
+.arrow:hover {
+  cursor: pointer;
 }
 
 .userPhoto {
-  height: 40px;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
   margin-right: 20px;
 }

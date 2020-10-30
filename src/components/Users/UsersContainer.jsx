@@ -15,6 +15,7 @@ import {
 } from "../../redux/users-selectors";
 import Paginator from "../Common/Paginator/Paginator";
 
+
 class UsersContainer extends React.Component {
   componentDidMount() {
     let { currentPage, pageSize } = this.props;
@@ -36,6 +37,7 @@ class UsersContainer extends React.Component {
           totalItemsCount={this.props.totalUserCount}
           pageSize={this.props.pageSize}
           portionSize={this.props.portionSize}
+
         />
         {this.props.isFetching ? (
           <Preloader />

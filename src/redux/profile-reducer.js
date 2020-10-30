@@ -1,5 +1,7 @@
 import { profileAPI } from "../API/api";
 import { stopSubmit } from "redux-form";
+import { setEditMode } from "./auth-reducer";
+
 
 const ADD_POST = `social-network/profilePage/ADD-POST`;
 const SET_USER_PROFILE = `social-network/profilePage/SET_USER_PROFILE`;
@@ -126,11 +128,12 @@ export const saveProfile = (profile) => {
     let response = await profileAPI.saveProfile(profile);
     if (response.data.resultCode === 0) {
       dispatch(getUserProfile(profile.userId));
+      dispatch(setEditMode(false));
     } else {
       let error = response.data.messages[0];
       let elem = error.slice(error.indexOf(">") + 1, -1).toLowerCase();
       dispatch(stopSubmit("profileData", { contacts: { [elem]: error } }));
-      return Promise.reject();
+      dispatch(setEditMode(true));
     }
   };
 };
