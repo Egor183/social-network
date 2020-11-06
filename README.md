@@ -4,7 +4,7 @@ Social network on react-redux. And also axios, redux-form, redux-thunk, reselect
 
 Since the project is educational, I left single pieces of old unreported code.
 
-Email: free@samuraijs.com
+Email: free@samuraijs.com  
 Password: free
 
 ## Available Scripts
