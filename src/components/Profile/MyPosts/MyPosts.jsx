@@ -24,6 +24,9 @@ const AddPostForm = (props) => {
   );
 };
 
+
+
+
 const TextAreaReduxForm = reduxForm({
   form: "addPost",
 })(AddPostForm);
@@ -33,6 +36,7 @@ const MyPosts = React.memo(({ addPost, posts, profile }) => {
     addPost(formData.post);
     dispatch(reset("addPost"));
   };
+
   let postsElements = posts.map((elem) => (
     <Post message={elem.message} likesCount={elem.likesCount} key={elem.id} profile={profile} />
   ));

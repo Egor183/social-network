@@ -21,9 +21,10 @@ const Header = (props) => {
       </div>
       {visibility && props.isAuth && (
         <div className={s.menu} onMouseLeave={() => changeVisibility(visibility)}>
-          <NavLink onClick={() => props.setEditMode(true)} to={`/profile/${props.meId}`} className={s.menuPoint}>
+          <NavLink onClick={() => props.startEditMode(true)} to={`/profile/${props.meId}`} className={s.menuPoint}>
             Edit mode
           </NavLink>
+
           <button
             className={s.menuPoint}
             onClick={() => {

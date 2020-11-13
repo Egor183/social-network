@@ -48,7 +48,7 @@
 
 .categoryName {
   color: #292929;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .userAvatar {
@@ -84,7 +84,7 @@
 
 .contact {
   padding-left: 20px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .contactsFormsContainer {
@@ -137,11 +137,15 @@
   font-weight: bold;
   color: #292929;
   width: 100px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .profScills {
   width: auto;
+}
+
+.category {
+  margin-bottom: 10px;
 }
 
 .status {

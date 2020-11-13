@@ -12,7 +12,7 @@ const Profile = ({
   changeAvatar,
   saveProfile,
   editMode,
-  setEditMode,
+  startEditMode,
 }) => {
   if (!profile) {
     return <Preloader />;
@@ -29,7 +29,7 @@ const Profile = ({
         changeAvatar={changeAvatar}
         saveProfile={saveProfile}
         editMode={editMode}
-        setEditMode={setEditMode}
+        startEditMode={startEditMode}
       />
       <MyPostsContainer />
     </div>

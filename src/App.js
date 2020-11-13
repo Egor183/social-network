@@ -57,7 +57,7 @@ class App extends React.Component {
             <Route exact path="/social-network" render={() => <Redirect to={`/profile/${this.props.meId}`} />} />
             <Route path="/dialogs" render={SuspenseHOC(DialogsContainer)} />
             <Route path="/users" render={() => <UsersContainer />} />
-            <Route path="/profile/:userId?" render={SuspenseHOC(ProfileContainer)} />
+            <Route path="/profile/:userId?/:editMode?" render={SuspenseHOC(ProfileContainer)} />
             <Route path="/login" render={SuspenseHOC(Login)} />
             <Route path="*" render={() => <div>404 NOT FOUND</div>} />
           </Switch>

@@ -7,16 +7,17 @@ import {
   getUserProfile,
   saveProfile,
   setUserProfile,
+  startEditMode,
   updateStatus,
 } from "../../redux/profile-reducer";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
 import { setEditMode } from "../../redux/auth-reducer";
 
-
 class ProfileContainer extends React.Component {
   getProfile() {
     let newUserId = this.props.match.params.userId;
+    debugger;
     newUserId = Number(newUserId);
     if (!newUserId) {
       newUserId = this.props.meId;
@@ -25,16 +26,19 @@ class ProfileContainer extends React.Component {
         return this.props.history.push("/login");
       }
     }
-    this.props.getUserProfile(newUserId);
+
+    this.props.getUserProfile(newUserId, this.props.stEditMode);
+
     this.props.getStatus(newUserId);
   }
 
-  componentDidMount() {
+  componentDidMount(prevProps) {
     this.getProfile();
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.match.params.userId !== prevProps.match.params.userId) {
+    debugger;
+    if (prevProps.stEditMode !== this.props.stEditMode || this.props.match.params.userId === "null") {
       this.getProfile();
     }
   }
@@ -52,7 +56,7 @@ class ProfileContainer extends React.Component {
         changeAvatar={this.props.changeAvatar}
         saveProfile={this.props.saveProfile}
         editMode={this.props.editMode}
-        setEditMode={this.props.setEditMode}
+        startEditMode={this.props.startEditMode}
       />
     );
   }
@@ -65,6 +69,7 @@ let mapStateToProps = (state) => {
     meId: state.auth.userId,
     isAuth: state.auth.isAuth,
     editMode: state.auth.editMode,
+    stEditMode: state.profilePage.stEditMode,
   };
 };
 
@@ -77,6 +82,7 @@ export default compose(
     changeAvatar,
     saveProfile,
     setEditMode,
+    startEditMode,
   }),
   withRouter
 )(ProfileContainer);

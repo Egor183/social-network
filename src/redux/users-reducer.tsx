@@ -1,5 +1,6 @@
 import { userAPI as userApi, userAPI } from "../API/api";
 import { updateObjectInArray } from "../utils/object-helpers";
+import { photosType, usersType } from "../types/types";
 
 const FOLLOW = `social-network/usersPage/FOLLOW`;
 const UNFOLLOW = `social-network/usersPage/UNFOLLOW`;
@@ -10,16 +11,18 @@ const TOGGLE_IS_FETCHING = "social-network/usersPage/TOGGLE_IS_FETCHING";
 const TOGGLE_IS_FOLLOWING_PROCESS = "social-network/usersPage/TOGGLE_IS_FOLLOWING_PROCESS";
 
 let initialState = {
-  users: [],
-  pageSize: 6,
-  totalUserCount: 0,
-  currentPage: 1,
-  isFetching: false,
-  followingInProgress: [],
-  portionSize: 15,
+  users: [] as Array<usersType>,
+  pageSize: 6 as number,
+  totalUserCount: 0 as number,
+  currentPage: 1 as number,
+  isFetching: false as boolean,
+  followingInProgress: [] as Array<number>, // array of users
+  portionSize: 15 as number,
 };
 
-const usersReducer = (state = initialState, action) => {
+export type initialStateType = typeof initialState;
+
+const usersReducer = (state = initialState, action: any): initialStateType => {
   switch (action.type) {
     case FOLLOW:
       return {
@@ -81,47 +84,86 @@ const usersReducer = (state = initialState, action) => {
   }
 };
 
-export const followSuccess = (userId) => ({
+type followSuccessType = {
+  type: typeof FOLLOW;
+  userId: number;
+};
+
+export const followSuccess = (userId: number): followSuccessType => ({
   type: FOLLOW,
   userId,
 });
 
-export const unfollowSuccess = (userId) => ({
+type unfollowSuccessType = {
+  type: typeof UNFOLLOW;
+  userId: number;
+};
+
+export const unfollowSuccess = (userId: number): unfollowSuccessType => ({
   type: UNFOLLOW,
   userId,
 });
 
-export const setUsers = (users) => ({
+type setUsersType = {
+  type: typeof SET_USERS;
+  users: Array<usersType>;
+};
+
+export const setUsers = (users: Array<usersType>): setUsersType => ({
   type: SET_USERS,
   users,
 });
 
-export const setCurrentPage = (currentPage) => {
+type setCurrentPageType = {
+  type: typeof SET_CURRENT_PAGE;
+  currentPage: number;
+};
+
+export const setCurrentPage = (currentPage: number): setCurrentPageType => {
   return {
     type: SET_CURRENT_PAGE,
     currentPage,
   };
 };
 
-export const setUserTotalCount = (totalCount) => ({
+type setUserTotalCountType = {
+  type: typeof SET_USER_TOTAL_COUNT;
+  totalCount: number;
+};
+
+export const setUserTotalCount = (totalCount: number): setUserTotalCountType => ({
   type: SET_USER_TOTAL_COUNT,
   totalCount,
 });
 
-export const toggleIsFetching = (isFetching) => ({
+type toggleIsFetchingType = {
+  type: typeof TOGGLE_IS_FETCHING;
+  isFetching: boolean;
+};
+
+export const toggleIsFetching = (isFetching: boolean): toggleIsFetchingType => ({
   type: TOGGLE_IS_FETCHING,
   isFetching,
 });
 
-export const toggleIsFollowingProcess = (followingInProgress, userId) => ({
+type toggleIsFollowingProcessType = {
+  type: typeof TOGGLE_IS_FOLLOWING_PROCESS;
+  followingInProgress: boolean;
+  userId: number;
+};
+
+export const toggleIsFollowingProcess = (
+  followingInProgress: boolean,
+  userId: number
+): toggleIsFollowingProcessType => ({
   type: TOGGLE_IS_FOLLOWING_PROCESS,
   followingInProgress,
   userId,
 });
 
-export const requestUsers = (page, pageSize) => {
+export const requestUsers = (page: number, pageSize: number) => {
   // thunkCreator
-  return async (dispatch) => {
+  return async (dispatch:any) => {
     dispatch(toggleIsFetching(true));
     let response = await userAPI.getUsers(page, pageSize);
     dispatch(toggleIsFetching(false));
@@ -130,9 +172,9 @@ export const requestUsers = (page, pageSize) => {
   };
 };
 
-export const followUnfollow = (userId, followFlag) => {
+export const followUnfollow = (userId: number, followFlag: boolean) => {
   // thunkCreator
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     dispatch(toggleIsFollowingProcess(true, userId));
     let response = followFlag ? await userApi.unfollowSuccess(userId) : await userApi.followSuccess(userId);
     if (response.data.resultCode === 0) {

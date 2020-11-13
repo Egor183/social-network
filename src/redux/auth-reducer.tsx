@@ -1,5 +1,5 @@
-import { authAPI, profileAPI } from "../API/api";
 import { stopSubmit } from "redux-form";
+import { authAPI, profileAPI } from "../API/api";
 
 const SET_USER_PHOTO = "social-network/auth/SET_USER_PHOTO";
 const SET_USER_DATA = `social-network/auth/SET_USER_DATA`;
@@ -8,19 +8,20 @@ const SET_CAPTCHA = `social-network/auth/SET_CAPTCHA`;
 const SET_EDIT_MODE = `social-network/auth/SET_EDIT_MODE`;
 
 let initialState = {
-  login: null,
-  id: null,
-  email: null,
-  photo: null,
+  login: null as string | null,
+  id: null as number | null,
+  email: null as string | null,
+  photo: null as string | null,
   isFetching: false,
   isAuth: false,
-  captcha: null,
-  count: 0,
+  captcha: null as string | null,
   logged: false,
   editMode: false,
 };
 
-const authReducer = (state = initialState, action) => {
+export type initialStateType = typeof initialState;
+
+const authReducer = (state = initialState, action: any): initialStateType => {
   switch (action.type) {
     case SET_USER_DATA:
       return {
@@ -41,7 +42,6 @@ const authReducer = (state = initialState, action) => {
       };
 
     case SET_EDIT_MODE:
-
       return {
         ...state,
         ...action.payload,
@@ -51,7 +51,26 @@ const authReducer = (state = initialState, action) => {
   }
 };
 
-export const setAuthUserData = (userId, email, login, isAuth, photo, cameOut) => ({
+type initializedSuccessActionPayloadType = {
+  email: string | null;
+  userId: number | null;
+  login: string | null;
+  isAuth: boolean;
+  photo: string | null;
+};
+
+type initializedSuccessActionType = {
+  type: typeof SET_USER_DATA;
+  payload: initializedSuccessActionPayloadType;
+};
+
+export const setAuthUserData = (
+  userId: number | null,
+  email: string | null,
+  login: string | null,
+  isAuth: boolean,
+  photo: string | null
+): initializedSuccessActionType => ({
   type: SET_USER_DATA,
   payload: {
     email,
@@ -59,28 +78,42 @@ export const setAuthUserData = (userId, email, login, isAuth, photo, cameOut) =>
     login,
     isAuth,
     photo,
-    cameOut,
   },
 });
 
-export const setUserPhoto = (userPhoto) => ({
+type setUserPhotoType = {
+  type: typeof SET_USER_PHOTO;
+  userPhoto: string;
+};
+
+export const setUserPhoto = (userPhoto: string): setUserPhotoType => ({
   type: SET_USER_PHOTO,
   userPhoto,
 });
 
-export const setEditMode = (editMode) => ({
+type setEditModeType = {
+  type: typeof SET_EDIT_MODE;
+  payload: { editMode: boolean };
+};
+
+export const setEditMode = (editMode: boolean): setEditModeType => ({
   type: SET_EDIT_MODE,
   payload: { editMode },
 });
 
-export const setCaptcha = (captcha) => ({
+type setCaptchaType = {
+  type: typeof SET_CAPTCHA;
+  payload: { captcha: string };
+};
+
+export const setCaptcha = (captcha: string): setCaptchaType => ({
   type: SET_CAPTCHA,
   payload: { captcha },
 });
 
 export const setAuth = () => {
   // thunkCreator
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     let response = await authAPI.getAuthMe();
     if (response.data.resultCode === 0) {
       let { id, login, email } = response.data.data;
@@ -93,13 +126,13 @@ export const setAuth = () => {
 
 export const getCaptcha = () => {
   // thunkCreator
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     let response = await authAPI.getCaptcha();
     return dispatch(setCaptcha(response.data.url));
   };
 };
 
-export const login = (formData) => async (dispatch) => {
+export const login = (formData: object) => async (dispatch: any) => {
   // thunkCreator
   let response = await authAPI.login(formData);
 
@@ -114,12 +147,12 @@ export const login = (formData) => async (dispatch) => {
   }
 };
 
-export const logout = (formData) => {
+export const logout = () => {
   // thunkCreator
-  return async (dispatch) => {
-    let response = await authAPI.logout(formData);
+  return async (dispatch: any) => {
+    let response = await authAPI.logout();
     if (response.data.resultCode === 0) {
-      dispatch(setAuthUserData(null, null, null, false));
+      dispatch(setAuthUserData(null, null, null, false, null));
     }
   };
 };

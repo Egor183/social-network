@@ -1,10 +1,24 @@
 const ADD_MESSAGE = `ADD-MESSAGE`;
 
+export type initialStateType = typeof initialState;
+
+type messagesType = {
+  id: number;
+  message: string;
+  userId: number;
+};
+
+type dialogsType = {
+  id: number;
+  name: string;
+  image: string;
+};
+
 let initialState = {
   messages: [
     { id: 0, message: "Hello!", userId: 3 },
     { id: 1, message: "How are you?", userId: 3 },
-  ],
+  ] as Array<messagesType>,
   dialogs: [
     {
       id: 1,
@@ -114,13 +128,12 @@ let initialState = {
       name: "Kolya",
       image: "https://avatars.mds.yandex.net/get-pdb/879561/f817b993-2883-49ef-aa56-9fed499e04e4/s1200",
     },
-  ],
+  ] as Array<dialogsType>,
 };
 
-const dialogsReducer = (state = initialState, action) => {
+const dialogsReducer = (state = initialState, action: any): initialStateType => {
   switch (action.type) {
     case ADD_MESSAGE: {
-
       return {
         ...state,
         messages: [...state.messages, { id: state.messages.length, message: action.formData, userId: action.userId }],
@@ -131,7 +144,13 @@ const dialogsReducer = (state = initialState, action) => {
   }
 };
 
-export const addMessageActionCreator = (formData, userId) => {
+type setCaptchaType = {
+  type: typeof ADD_MESSAGE;
+  formData: object;
+  userId: number;
+};
+
+export const addMessageActionCreator = (formData: object, userId: number): setCaptchaType => {
   return {
     type: ADD_MESSAGE,
     formData,

@@ -3,7 +3,8 @@ import s from "./ProfileInfo.module.css";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import UserAvatar from "../../../assets/images/defaultuser.png";
 import ProfileDataForm from "./ProfileDataForm";
-import styles from "./ProfileInfo.module.css";
+import styles from "./ProfileInfo.module.css"
+import cx from "classnames";
 
 const ProfileInfo = ({
   profile,
@@ -14,7 +15,7 @@ const ProfileInfo = ({
   changeAvatar,
   saveProfile,
   editMode,
-  setEditMode,
+  startEditMode,
 }) => {
   const [visibility, setVisibility] = useState(false);
 
@@ -24,6 +25,7 @@ const ProfileInfo = ({
 
   const onSubmit = (profile) => {
     saveProfile(profile);
+    startEditMode(false);
   };
 
   const avatarSelected = (e) => {
@@ -50,8 +52,9 @@ const ProfileInfo = ({
       </div>
       <div className={s.infoContainer}>
         <ProfileStatusWithHooks status={status} updateStatus={updateStatus} editMode={editMode} />
-        {editMode ? (
-          <ProfileDataForm onSubmit={onSubmit} initialValues={profile} profile={profile} setEditMode={setEditMode} />
+
+        {editMode && isOwner === meId ? (
+          <ProfileDataForm onSubmit={onSubmit} initialValues={profile} profile={profile} />
         ) : (
           <ProfileData profile={profile} isOwner={isOwner} meId={meId} />
         )}
@@ -80,7 +83,7 @@ const ProfileData = ({ profile }) => {
         </div>
       )}
       <div className={s.categoryName}>
-        <span className={styles.input}>Contacts:</span>
+        <p className={cx(styles.input,styles.category)}>Contacts:</p>
         {Object.keys(profile.contacts).map((key) => {
           return <Contact key={key} contactName={key} contactValue={profile.contacts[key]} />;
         })}

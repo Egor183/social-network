@@ -4,11 +4,12 @@ import Header from "./Header";
 import { logout, setEditMode } from "../../redux/auth-reducer";
 import { compose } from "redux";
 import { withRouter } from "react-router-dom";
+import { startEditMode } from "../../redux/profile-reducer";
 
 class HeaderContainer extends React.Component {
   componentDidUpdate(prevProps) {
-    if (prevProps.editMode) {
-      this.props.setEditMode(false);
+    if (prevProps.editMode === true) {
+      this.props.startEditMode(false);
     }
   }
 
@@ -29,6 +30,7 @@ let mapStateToProps = (state) => {
     photo: state.auth.photo,
     meId: state.auth.userId,
     editMode: state.auth.editMode,
+    stEditMode: state.profilePage.stEditMode,
   };
 };
 
@@ -36,6 +38,7 @@ export default compose(
   connect(mapStateToProps, {
     logout,
     setEditMode,
+    startEditMode,
   }),
   withRouter
 )(HeaderContainer);
